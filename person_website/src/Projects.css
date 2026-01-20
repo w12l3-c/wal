@@ -1,11 +1,9 @@
 .main{
-    background-image: url("./assets/background.jpeg");
-    /* background-image: url("https://i.gifer.com/YPhI.gif"); */
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 100vw;
-    height: 100vw;
+    /* Background handled by LiquidChrome.js */
+    background: transparent;
+    width: 100%;
+    min-height: 100vh;
+    position: relative; /* Ensure relative positioning for absolute children */
 }
 
 @keyframes wobble {
@@ -32,25 +30,64 @@
     100% { transform: translate(0.25vw, -0.25vw); }
 }
 
-@keyframes slidingGradient {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
+@keyframes slideInFromLeft {
+    0% { 
+        transform: translateX(-100vw) scale(0.6);
+        opacity: 0;
+    }
+    100% { 
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromRight {
+    0% { 
+        transform: translateX(100vw) scale(0.6);
+        opacity: 0;
+    }
+    100% { 
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInScale {
+    0% { 
+        transform: scale(0.6);
+        opacity: 0;
+    }
+    100% { 
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .main h1{
     color: white;
     text-align: center;
     padding: 10vh 0vw;
-    font-size: 50px;
+    font-size: clamp(32px, 6vw, 60px);
     padding-bottom: 6vw;
 }
 
 .body{
-    height: 47.5vw;
-    width: 100vw;
+    width: 100%;
     margin: 0rem;
-    overflow: hidden;
+    overflow: visible;
     padding-top: 0.5vw;
+}
+
+.body.view-carousel {
+    height: auto;
+    min-height: 600px;
+    aspect-ratio: 100/47.5;
+}
+
+.body.view-grid {
+    height: auto;
+    min-height: auto;
+    aspect-ratio: auto; /* Allow grid to grow */
 }
 
 .image-track > .projects{
@@ -76,36 +113,37 @@
 
 .image-track > div:hover {
     transform: scale(1.25);
-    transition: all 0.75s ease;  
+    transition: all 0.75s ease;
 }
 
 .carousel-large{
-    width: 45vw;
-    height: 35vw;
-    transition: all 1s ease;
-    border-radius: 1vw;
+    width: 45%;
+    max-width: 600px;
+    aspect-ratio: 45/35;
+    height: auto;
+    border-radius: 15px;
     position: absolute;
 }
 
 .carousel-large:hover{
-    transform: scale(1.1);
-    opacity: 1;
-    box-shadow: 0 0 20px #6600ff;
+    box-shadow: 0 0 30px #6600ff;
     animation: vibrate 8s ease-in-out infinite alternate;
+    transition: box-shadow 0.3s ease;
 }
 
 .carousel-small{
     width: 32.5vw;
-    height: 27.5vw;
-    transition: all 1s ease;
-    opacity: 1;
-    border-radius: 1vw;
+    max-width: 450px;
+    aspect-ratio: 32.5/27.5;
+    height: auto;
+    border-radius: 15px;
     filter: brightness(60%);
-}
+}   
 
 .carousel-small:hover{
-    transform: scale(1.025);
+    filter: brightness(80%);
     animation: vibrate 8s ease-in-out infinite alternate;
+    transition: filter 0.3s ease;
 }
 
 .carousel-visible {
@@ -118,7 +156,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 35vw;
+    margin-top: min(35vw, 470px);
 }
   
 .carousel-dot {
@@ -137,14 +175,34 @@
 }
 
 .toggle-view{
-    text-align: right;
-    transition: all 1s ease;
-    padding: 1vw;
-    padding-top: 2.25vw;
-    bottom: 0;
-    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(120px, 15vw, 200px);
+    height: clamp(40px, 5vw, 60px);
+    padding: calc(clamp(40px, 6vw, 80px) * 0.2) calc(clamp(120px, 15vw, 200px) * 0.15);
+    margin: calc(clamp(40px, 6vw, 80px) * 0.75) auto;
+    cursor: pointer;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    border: none;
+    border-radius: calc(clamp(40px, 5vw, 60px) * 0.8);
+    color: white;
+    font-size: calc(clamp(40px, 5vw, 60px) * 0.35);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
 }
 
+.toggle-view:hover{
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+    background: linear-gradient(135deg, #5855eb 0%, #7c3aed 100%);
+}
+
+.toggle-icon {
+    pointer-events: none;
+    transition: none;
+}
 
 .description{
     background: #f6f6f6;
@@ -163,6 +221,16 @@
     width:70%;
 }
 
+.description h2 {
+    padding: 5vh 5vw;
+    padding-bottom: 4vh;
+    padding-top: 6vh;
+    margin: 0;
+    font-size: clamp(20px, 4vw, 36px);
+    color: #000000;
+    text-align: left;
+}
+
 .description h3 {
     padding: 5vh 5vw;
     padding-bottom: 4vh;
@@ -176,7 +244,7 @@
 .description p {
     padding: 0 5vw;
     margin: 0;
-    font-size: 15px;
+    font-size: clamp(12px, 2vw, 18px);
     color: #000000;
     text-align: left;
 }
@@ -186,18 +254,19 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 1vw;
+    gap: 15px;
     flex-wrap: wrap;
+    padding: 0 5vw;
     padding-bottom: 3vw;
 }
 
 .description-content li {
-    padding: 1vw 3vw;
+    padding: 12px 24px;
     margin: 0;
-    font-size: 13px;
+    font-size: clamp(11px, 1.8vw, 16px);
     color: #f9f9f9;
     text-align: left;
-    border-radius: 1vw;
+    border-radius: 25px;
     background: linear-gradient(270deg, #6800ef, #2f55ef, #6f00ff);
     animation: slidingGradient 3s linear infinite alternate;
     background-size: 200% 200%;
@@ -210,19 +279,18 @@
     transition: all 0.5s ease;
     box-shadow: inset #000000 0px 0px 2px;
 }
-
-
 .image-container{
-    height: 20vw;
+    max-width: 300px;
     width: 20vw;
+    aspect-ratio: 1/1;
     overflow: hidden;
-    border-radius: 2vw;
+    border-radius: 20px;
     margin: 0;
     position: relative;
-    margin-right: 7.5vw;
+    /* margin-right: 7.5vw; removed specific vw margin */
     box-shadow: #000000 0px 0px 10px;
-    margin-bottom: 3vw;
-}
+    margin-bottom: 20px;
+}   
 
 .image-container img{
     object-fit: cover;
@@ -245,14 +313,172 @@ hr{
     margin-right: auto;
     border-radius: 5px;
 }
-
 .decoration{
     background: linear-gradient(270deg, #6800ef, #008cff, #6f00ff);
     background-size: 200% 200%;
     animation: slidingGradient 3s linear infinite alternate;
     transition: 0.5s ease;
-    height: 2vw;
-    width: 100vw;
+    height: 30px;
+    width: 100%;
+}   
+
+/* Project Grid/List View */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2vw;
+    padding: 4vw;
+    background: #f6f6f6;
+    min-height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+
+.project-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 30px rgba(102, 0, 255, 0.2);
+    border-color: #6600ff;
+}
+
+.project-card-image {
+    width: 100%;
+    height: 250px;
+    min-height: 250px;
+    max-height: 250px;
+    object-fit: cover;
+    object-position: center;
+    border-bottom: 1px solid #eee;
+    display: block;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.project-card-content {
+    padding: clamp(20px, 3vw, 30px);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card-title {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: bold;
+    color: #333;
+    margin-bottom: clamp(8px, 1.5vw, 16px);
+    line-height: 1.3;
+}
+
+.project-card-description {
+    font-size: clamp(0.75rem, 1.8vw, 1rem);
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: clamp(12px, 2vw, 20px);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.project-card-technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(6px, 1vw, 12px);
+    margin-top: clamp(8px, 1.5vw, 16px);
+}
+
+.project-card-tech {
+    padding: clamp(6px, 1vw, 10px) clamp(12px, 2vw, 16px);
+    font-size: clamp(0.6rem, 1.2vw, 0.8rem);
+    color: white;
+    background: linear-gradient(270deg, #6800ef, #2f55ef, #6f00ff);
+    border-radius: 12px;
+    animation: slidingGradient 3s linear infinite alternate;
+    background-size: 200% 200%;
+    transition: all 0.3s ease;
+}
+
+.project-card-tech:hover {
+    transform: scale(1.05);
+}
+
+/* Correct styling for actual HTML structure */
+.project-image {
+    width: 100%;
+    height: 250px;
+    min-height: 250px;
+    max-height: 250px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.project-info {
+    padding: clamp(20px, 3vw, 30px);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-info h3 {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 clamp(8px, 1.5vw, 16px) 0;
+    line-height: 1.3;
+}
+
+.project-info p {
+    font-size: clamp(0.75rem, 1.8vw, 1rem);
+    color: #666;
+    line-height: 1.6;
+    margin: 0 0 clamp(12px, 2vw, 20px) 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.project-technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(6px, 1vw, 12px);
+    margin-top: clamp(8px, 1.5vw, 16px);
+}
+
+.tech-badge {
+    padding: clamp(6px, 1vw, 10px) clamp(12px, 2vw, 16px);
+    font-size: clamp(0.6rem, 1.2vw, 0.8rem);
+    color: white;
+    background: linear-gradient(270deg, #6800ef, #2f55ef, #6f00ff);
+    border-radius: 12px;
+    animation: slidingGradient 3s linear infinite alternate;
+    background-size: 200% 200%;
+    transition: all 0.3s ease;
+}
+
+.tech-badge:hover {
+    transform: scale(1.05);
 }
 
 

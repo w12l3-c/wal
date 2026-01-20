@@ -13,7 +13,7 @@ function Footer(){
                 <a href='https://github.com/w12l3-c' target='_blank'><img src={github} alt="github" /></a>
                 <a href="mailto:wwlee@uwaterloo.ca"><img src={gmail} alt="gmail" /></a>
             </div>
-            <p>Made by Wallace Lee in 2023</p>
+            <p>Made by Wallace Lee • © 2025</p>
         </footer>
     );
 };

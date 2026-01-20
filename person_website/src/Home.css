@@ -1,30 +1,47 @@
-html {
-    scroll-behavior: smooth;
-}
-
-@keyframes slidingGradient {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-}
-  
 .home {
-    background: linear-gradient(270deg, #003cff, #3500d2, #7116df, #3500d2, #003cff);
+    background: var(--gradient-primary);
     background-size: 200% 200%;
     animation: slidingGradient 10s linear infinite alternate;
     transition: 0.5s ease;
+    scroll-behavior: smooth;
+}
+
+.floating-lines-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 0;
 }
 
 .home-banner {
-    text-align: left;
-    padding: 15vh 10vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
     margin: 0px;
+    padding: 0;
+    background: #000000;
+    z-index: 1;
+    overflow: hidden;
+    will-change: opacity;
+    transition: opacity 0.3s ease-out;
 }
 
 .home-banner h1 {
     text-decoration: none;
-    font-size: 45px;
-    color: #f2eafb;
-    transition: 0.02s;
+    font-size: clamp(40px, 8vw, 120px);
+    color: var(--text-light);
+    position: relative;
+    z-index: 1;
+    white-space: nowrap;
+    will-change: transform, opacity;
 }
 
 @keyframes blink {
@@ -35,16 +52,6 @@ html {
 
 .blink {
     animation: blink 0.75s infinite;
-}
-  
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
 }
 
 .fade-in {
@@ -57,23 +64,34 @@ html {
 }
 
 .home-experience {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     text-align: left;
-    padding: 15vh 10vw;
+    padding: 10vh 10vw;
     margin: 0px;
     background-color: rgb(231, 238, 244);
+    will-change: opacity;
+    transition: opacity 0.3s ease-out;
+    z-index: 2;
 }
 
-.home-experience h4 {
+.home-experience h1 {
     text-decoration: none;
     color: #6709ff;
-    font-size: 17px;
+    /* font-size: clamp(13px, 2.2vw, 20px); */
     transition: 0.02s;
 }
 
 .home-experience-button{
     display: inline-block;
     padding: 10px 40px;
-    font-size: 13px;
+    font-size: clamp(10px, 1.8vw, 16px);
     text-align: center;
     text-decoration: none;
     background-color: #7b00ff;
@@ -106,8 +124,10 @@ html {
 
 .circular-image {
     border-radius: 50%; /* makes the image circular */
-    width: 20vw; /* adjust as needed */
-    height: 20vw; /* adjust as needed */
+    width: 20vw;
+    max-width: 300px;
+    aspect-ratio: 1/1;
+    height: auto;
     overflow: hidden; /* hides the parts of the image outside the circle */
     animation: spin 10s linear infinite; /* makes the image spin */
     box-shadow: 0px 0px 10px rgba(119, 0, 255, 0.368);
@@ -119,23 +139,31 @@ html {
 }
 
 .home-hobbies {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: stretch;
     text-align: left;
-    padding: 8vh 10vw;
+    padding: 0;
     margin: 0px;
-    transition: 0.02s;
+    margin-top: 200vh;
+    will-change: opacity;
+    transition: opacity 0.3s ease-out;
+    z-index: 3;
 }
 
 .home-hobbies h4 {
     text-decoration: none;
     color: #f8f3ff;
-    font-size: 17px;
+    font-size: clamp(13px, 2.2vw, 20px);
     transition: 0.02s;
 }
 
 .home-hobbies-button{
     display: inline-block;
     padding: 10px 40px;
-    font-size: 13px;
+    font-size: clamp(10px, 1.8vw, 16px);
     text-align: center;
     text-decoration: none;
     background-color: #ffffff;
@@ -166,7 +194,9 @@ html {
 .rounded-rectangle {
     border-radius: 10px;
     width: 40vw;
-    height: 30vw;
+    max-width: 600px;
+    aspect-ratio: 4/3;
+    height: auto;
     overflow: hidden;
     justify-content: space-between;
     transition: opacity 0.5s ease-in-out;

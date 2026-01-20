@@ -1,0 +1,102 @@
+/* CSS Custom Properties - Design System */
+:root {
+  /* Colors */
+  --color-primary: #7b00ff;
+  --color-primary-dark: #2d00b3;
+  --color-primary-light: #9900ff;
+  --color-secondary: #6709ff;
+  --color-accent: #ff9100;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(270deg, #003cff, #3500d2, #7116df, #3500d2, #003cff);
+  --gradient-secondary: linear-gradient(270deg, #6800ef, #2f55ef, #6f00ff);
+  
+  /* Background Colors */
+  --bg-light: #f6f6f6;
+  --bg-gray: #e7eef4;
+  --bg-dark: rgb(236, 236, 236);
+  --bg-white: #ffffff;
+  
+  /* Text Colors */
+  --text-primary: #000000;
+  --text-secondary: #4e4e4e;
+  --text-light: #f2eafb;
+  --text-white: #ffffff;
+  --text-muted: #666666;
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+  
+  /* Viewport-based spacing */
+  --spacing-vw-sm: 2vw;
+  --spacing-vw-md: 5vw;
+  --spacing-vw-lg: 7.5vw;
+  --spacing-vw-xl: 10vw;
+  --spacing-vh-sm: 2vh;
+  --spacing-vh-md: 5vh;
+  --spacing-vh-lg: 10vh;
+  --spacing-vh-xl: 15vh;
+  
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --font-size-xs: 10px;
+  --font-size-sm: 13px;
+  --font-size-md: 15px;
+  --font-size-lg: 17px;
+  --font-size-xl: 19px;
+  --font-size-2xl: 21px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 45px;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 1vw;
+  --radius-lg: 20px;
+  --radius-circle: 50%;
+  
+  /* Shadows */
+  --shadow-sm: 0 0 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 0 10px #4e4e4e;
+  --shadow-inset: inset 0 0 10px #4e4e4e;
+  --shadow-dot: inset 0 0 1.5px rgb(44, 44, 44);
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.5s ease;
+  --transition-slow: 1s ease;
+  --transition-color: background-color 0.6s ease;
+  
+  /* Z-index layers */
+  --z-index-navbar: 999;
+  --z-index-modal: 1000;
+  --z-index-tooltip: 1001;
+  
+  /* Breakpoints (for use in media queries) */
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-soft: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-apple: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  --motion-fast: 200ms;
+  --motion-medium: 400ms;
+  --motion-slow: 700ms;
+}
+
+/* Dark mode support (for future implementation) */
+[data-theme="dark"] {
+  --bg-light: #1a1a1a;
+  --bg-gray: #2a2a2a;
+  --bg-dark: #333333;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+}

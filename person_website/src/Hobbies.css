@@ -1,5 +1,327 @@
-.bar{
+.hobbies-main {
+    min-height: 100vh;
+    background: var(--gradient-primary);
+    background-size: 200% 200%;
+    animation: slidingGradient 10s linear infinite alternate;
+}
+
+.hobbies-header {
+    text-align: center;
+    padding: var(--spacing-vh-lg) var(--spacing-vw-md);
+    color: var(--text-light);
+}
+
+.hobbies-header h1 {
+    font-size: clamp(28px, 6vw, 60px);
+    margin-bottom: var(--spacing-lg);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hobbies-header p {
+    font-size: clamp(14px, 2.5vw, 22px);
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.hobbies-container {
+    background-color: var(--bg-light);
+    margin: 0 var(--spacing-vw-md);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--shadow-md);
+    margin-bottom: var(--spacing-vh-md);
+    position: relative;
+}
+
+/* Progress indicators */
+.hobbies-indicators {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.indicator {
+    width: 60px;
+    height: 6px;
+    background-color: rgba(124, 77, 255, 0.2);
+    border-radius: 3px;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    transition: var(--transition-medium);
+}
+
+.indicator:hover {
+    background-color: rgba(124, 77, 255, 0.3);
+}
+
+.indicator-fill {
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, #7c4dff, #ff4081, #00bcd4);
+    border-radius: 3px;
+    transition: width 5s linear;
+}
+
+.indicator.active .indicator-fill {
     width: 100%;
-    background-color: #eeff00;
-    padding: 10vh 0vw ;
+    animation: progressFill 5s linear;
+}
+
+@keyframes progressFill {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+.hobby-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-2xl);
+    align-items: center;
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideInFade 0.8s ease-out forwards;
+}
+
+.hobby-content.gallery-layout {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+}
+
+@keyframes slideInFade {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.hobby-image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.hobby-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    transition: var(--transition-medium);
+}
+
+.hobby-image:hover {
+    transform: scale(1.05);
+}
+
+.hobby-details h2 {
+    font-size: clamp(24px, 4.5vw, 48px);
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-lg);
+}
+
+.hobby-details p {
+    font-size: clamp(14px, 2.5vw, 22px);
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-xl);
+}
+
+.hobby-skills h3 {
+    font-size: clamp(16px, 3vw, 28px);
+    color: var(--color-secondary);
+    margin-bottom: var(--spacing-md);
+}
+
+.hobby-skills ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-sm);
+}
+
+.hobby-skills li {
+    background: var(--gradient-secondary);
+    background-size: 200% 200%;
+    animation: slidingGradient 3s linear infinite alternate;
+    color: var(--text-white);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    font-size: clamp(11px, 1.8vw, 16px);
+    text-align: center;
+    transition: var(--transition-medium);
+}
+
+.hobby-skills li:hover {
+    background: var(--text-white);
+    color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.hobbies-quote {
+    text-align: center;
+    padding: var(--spacing-vh-md) var(--spacing-vw-md);
+}
+
+.hobbies-quote blockquote {
+    font-size: clamp(16px, 3vw, 28px);
+    color: var(--text-light);
+    font-style: italic;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hobbies-header h1 {
+        font-size: clamp(24px, 4.5vw, 48px);
+    }
+    
+    .hobbies-container {
+        margin: 0 var(--spacing-md);
+        padding: var(--spacing-lg);
+    }
+    
+    .hobbies-indicators {
+        gap: var(--spacing-sm);
+    }
+    
+    .indicator {
+        width: 40px;
+        height: 4px;
+    }
+    
+    .hobby-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+        text-align: center;
+    }
+    
+    .art-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .hobby-image {
+        height: 250px;
+        width: 100%;
+        max-width: 250px;
+        margin: 0 auto;
+    }
+    
+    .hobby-skills ul {
+        grid-template-columns: 1fr;
+    }
+    
+    .hobbies-quote blockquote {
+        font-size: clamp(14px, 2.5vw, 22px);
+    }
+}
+
+/* Art Section Styles */
+.art-section-container {
+    padding: var(--spacing-2xl) 0;
+    overflow: hidden; /* Ensures horizontal scrollbar doesn't appear on the page */
+    background: rgba(0, 0, 0, 0.2); /* Slight distinct background */
+    margin-bottom: var(--spacing-vh-md);
+}
+
+.art-section-header {
+    text-align: center;
+    color: var(--text-light);
+    margin-bottom: var(--spacing-xl);
+    padding: 0 var(--spacing-vw-md);
+}
+
+.art-section-header h2 {
+    font-size: clamp(24px, 4.5vw, 48px);
+    margin-bottom: var(--spacing-md);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.art-section-header p {
+    font-size: clamp(14px, 2.5vw, 22px);
+    color: var(--text-light);
+    opacity: 0.9;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Marquee Styles */
+.art-marquee {
+    width: 100%;
+    overflow: hidden; /* This is critical for hiding the overflow */
+    position: relative;
+    padding: var(--spacing-md) 0;
+}
+
+.art-track {
+    display: flex;
+    width: max-content; /* Track width dependent on content */
+    gap: var(--spacing-lg); /* Use gap instead of margin for internal spacing */
+    animation: marquee-scroll 40s linear infinite;
+    padding-left: var(--spacing-lg); /* Initial offset to match gap */
+}
+
+/* Pause animation on hover */
+.art-track:hover {
+    animation-play-state: paused;
+}
+
+.art-item {
+    flex-shrink: 0;
+    width: 300px;
+    height: 200px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease;
+}
+
+.art-item:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+    z-index: 2;
+}
+
+.art-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* Seamless infinite scroll animation definition */
+@keyframes marquee-scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        /* Move by -25% because we duplicated the set 4 times. 
+           We want to shift by exactly one full set length.
+           Wait, logic check: 
+           Total items = 4 sets.
+           We want to show Set 1, then Set 2, then Set 3, then Set 4.
+           Typically you only duplicate ONCE (2 sets) and move -50%.
+           Here we have 4 sets. If we move -25%, we move past Set 1 perfectly to start of Set 2.
+           Since Set 2 is identical to Set 1, it looks seamless.
+        */
+        transform: translateX(-25%);
+    }
+}
+
+/* Mobile responsive for art gallery */
+@media screen and (max-width: 768px) {
+    .art-item {
+        width: 220px;
+        height: 150px;
+    }
 }

@@ -1,9 +1,22 @@
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: transparent;
+    z-index: 1000;
+    pointer-events: none;
+}
+
 nav ul{
     list-style: none;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     margin: 0px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    pointer-events: auto;
 }
 
 nav li{
@@ -16,11 +29,27 @@ nav a{
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: rgb(84, 0, 230);
+    color: rgb(255, 255, 255);
 }
 
 nav a:hover{
-    color: white;
+    color: rgb(138, 43, 226);
+    transition: 0.5s ease;
+}
+
+.navbar-toggle-btn{
+    height: 100%;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+.navbar-toggle-btn:hover{
     transition: 0.5s ease;
 }
 
@@ -45,7 +74,7 @@ nav a:hover{
     right: 0;
     height: 100vh;
     width: 250px;
-    z-index: 999;
+    z-index: 1001;
     background-color: rgba(255, 255, 255, 0.847);
     backdrop-filter: blur(10px);
     box-shadow: -10px 0px 10px rgba(0, 0, 0, 0.1);

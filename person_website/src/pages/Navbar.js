@@ -29,12 +29,12 @@ function Navbar(){
             <nav>
                 <ul className={style}>
                     <li onClick={showSidebar}>
-                        <a href=''>
+                        <button type="button" className="navbar-toggle-btn">
                             {style === "sidebar"
                                 ? <svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 -960 960 960" width="26" fill="rgb(112, 23, 255)"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
                                 : ''
                             }
-                        </a>
+                        </button>
                     </li>
                     <li><Link to="/wal">Home</Link></li>
                     <li><Link to="/Experience">Experience</Link></li>
@@ -47,12 +47,12 @@ function Navbar(){
             <nav>
                 <ul className={!style}>
                     <li onClick={showSidebar}>
-                        <a href='#'>
+                        <button type="button" className="navbar-toggle-btn">
                             {style === "sidebar"
                                 ? ''
                                 : <svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 -960 960 960" width="26" fill="white"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
                             }
-                        </a>
+                        </button>
                     </li>
                 </ul>
             </nav>
