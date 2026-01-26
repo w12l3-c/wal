@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useSpring, animated, styled } from '@react-spring/web';
 
 import StaggeredMenu from './pages/StaggeredMenu.js';
 import Footer from './pages/Footer.js';
@@ -14,6 +13,56 @@ function Projects() {
     const images = projectsData.map(p => p.image); 
     const links = projectsData.map(p => p.link);
     const [currentSlide, setCurrentSlide] = useState(0);
+    useEffect(() => {
+        const tiltTargets = Array.from(document.querySelectorAll('.projects.carousel'));
+        if (tiltTargets.length === 0) return undefined;
+
+        const maxTilt = 8;
+        const rafIds = new Map();
+
+        const handleMove = (event, el) => {
+            if (window.matchMedia('(hover: none)').matches) return;
+            const rect = el.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const px = (x / rect.width) * 2 - 1;
+            const py = (y / rect.height) * 2 - 1;
+            const rotateX = (-py * maxTilt).toFixed(2);
+            const rotateY = (px * maxTilt).toFixed(2);
+
+            const rafId = rafIds.get(el);
+            if (rafId) cancelAnimationFrame(rafId);
+            rafIds.set(el, requestAnimationFrame(() => {
+                el.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            }));
+        };
+
+        const handleLeave = (el) => {
+            const rafId = rafIds.get(el);
+            if (rafId) cancelAnimationFrame(rafId);
+            el.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        };
+
+        tiltTargets.forEach((el) => {
+            const moveHandler = (event) => handleMove(event, el);
+            const leaveHandler = () => handleLeave(el);
+            el.addEventListener('mousemove', moveHandler);
+            el.addEventListener('mouseleave', leaveHandler);
+            el.addEventListener('touchstart', leaveHandler, { passive: true });
+            el._tiltMoveHandler = moveHandler;
+            el._tiltLeaveHandler = leaveHandler;
+        });
+
+        return () => {
+            tiltTargets.forEach((el) => {
+                if (el._tiltMoveHandler) el.removeEventListener('mousemove', el._tiltMoveHandler);
+                if (el._tiltLeaveHandler) el.removeEventListener('mouseleave', el._tiltLeaveHandler);
+                if (el._tiltLeaveHandler) el.removeEventListener('touchstart', el._tiltLeaveHandler);
+                el.style.transform = 'rotateX(0deg) rotateY(0deg)';
+            });
+            rafIds.forEach((id) => cancelAnimationFrame(id));
+        };
+    }, [showCarousel, currentSlide]);
 
     const nextSlide = () => {
         setCurrentSlide((prev) => (prev + 1) % images.length);
@@ -26,38 +75,8 @@ function Projects() {
     const prevImageIndex = (currentSlide - 1 + images.length) % images.length;
     const nextImageIndex = (currentSlide + 1) % images.length;
 
-    // React Spring animations
-    const mainCarouselAnimation = useSpring({
-        transform: `scale(1) translateX(0px)`,
-        opacity: 1,
-        from: { transform: `scale(0.8) translateX(0px)`, opacity: 0.8 },
-        config: { mass: 0.8, tension: 200, friction: 25 }
-    });
-
-    const prevCarouselAnimation = useSpring({
-        transform: `scale(0.85) translateX(-30px)`,
-        opacity: 0.7,
-        config: { mass: 0.8, tension: 200, friction: 25 }
-    });
-
-    const nextCarouselAnimation = useSpring({
-        transform: `scale(0.85) translateX(30px)`,
-        opacity: 0.7,
-        config: { mass: 0.8, tension: 200, friction: 25 }
-    });
-
-    // Description animation that resets on slide change
-    const descriptionAnimation = useSpring({
-        opacity: 1,
-        transform: 'translateY(0px)',
-        from: { opacity: 0, transform: 'translateY(30px)' },
-        reset: true,
-        key: currentSlide,
-        config: { mass: 1, tension: 180, friction: 20 }
-    });
-
     const menuItems = [
-        { label: 'Home', ariaLabel: 'Go to home page', link: '/wal' },
+        { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
         { label: 'Experience', ariaLabel: 'View experience', link: '/Experience' },
         { label: 'Projects', ariaLabel: 'View projects', link: '/Projects' },
         { label: 'Hobbies', ariaLabel: 'View hobbies', link: '/Hobbies' }
@@ -94,32 +113,29 @@ function Projects() {
                         <div className="image-track">
                             <div><svg xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 -960 960 960" width="45" fill='white' onClick={prevSlide}><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg></div>
                             
-                            <animated.a 
+                            <a
                                 href={links[prevImageIndex]} 
                                 target='_blank' 
                                 className='projects carousel carousel-small'
-                                style={prevCarouselAnimation}
                             >
                                 <img src={images[prevImageIndex]} alt="Previous" draggable={false} loading="lazy" decoding="async"/>
-                            </animated.a>
+                            </a>
                             
-                            <animated.a 
+                            <a
                                 href={links[nextImageIndex]} 
                                 target='_blank' 
                                 className='projects carousel carousel-small'
-                                style={nextCarouselAnimation}
                             >
                                 <img src={images[nextImageIndex]} alt="Next" draggable={false} loading="lazy" decoding="async"/>
-                            </animated.a>
+                            </a>
                             
-                            <animated.a 
+                            <a
                                 href={links[currentSlide]} 
                                 target='_blank' 
                                 className='projects carousel carousel-large'
-                                style={mainCarouselAnimation}
                             >
                                 <img src={images[currentSlide]} alt="Current" draggable={false} loading="lazy" decoding="async"/>
-                            </animated.a>
+                            </a>
                             
                             <div><svg xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 -960 960 960" width="45" fill='white' onClick={nextSlide}><path d="M400-240 640-480l-240-240-56 56 184 184-184 184 56 56Z"/></svg></div>
                         </div>
@@ -161,7 +177,7 @@ function Projects() {
                 </div>
             </div>
             {showCarousel && (
-                <animated.div className='description' style={descriptionAnimation}>
+                <div className='description'>
                     <div key={currentSlide}>
                          <h3>{projectsData[currentSlide].title}</h3>
                          <div className='description-container'>
@@ -177,7 +193,7 @@ function Projects() {
                              </div>
                          </div>
                      </div>
-                </animated.div>
+                </div>
             )}
             <div className='decoration'></div>
             <Footer />
@@ -186,4 +202,3 @@ function Projects() {
 }
 
 export default Projects;
-

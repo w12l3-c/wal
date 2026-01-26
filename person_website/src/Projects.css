@@ -103,6 +103,7 @@
     width: 100%;
     justify-content: space-evenly;
     align-items: center;
+    perspective: 1200px;
 }
 
 .image-track img {
@@ -213,8 +214,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
-    gap: 0vw;
+    align-items: flex-start;
+    gap: 2vw;
+    padding-right: 5vw;
 }
 
 .description-content{
@@ -482,4 +484,8 @@ hr{
 }
 
 
-
+.projects.carousel {
+    transform-style: preserve-3d;
+    transition: transform 0.2s ease;
+    will-change: transform;
+}

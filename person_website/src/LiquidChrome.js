@@ -71,7 +71,7 @@ export const LiquidChrome = ({
 
           vec3 cBlack = vec3(0.0, 0.0, 0.0);
           vec3 cBlue = vec3(0.0, 0.3, 0.9);
-          vec3 cMagenta = vec3(0.9, 0.0, 0.9);
+          vec3 cMagenta = vec3(0.92, 0.2, 0.38);
         //   vec3 cWhite = vec3(0.9, 0.9, 0.9);
           
           vec3 col;

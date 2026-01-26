@@ -1,0 +1,47 @@
+.shiny-text {
+  display: inline-block;
+}
+
+.shiny-text--no-split,
+.shiny-text .split-char,
+.shiny-text .split-word {
+  background-image: linear-gradient(
+    var(--shiny-spread, 120deg),
+    var(--shiny-color, #b5b5b5) 0%,
+    var(--shiny-color, #b5b5b5) 35%,
+    var(--shiny-shine, #ffffff) 50%,
+    var(--shiny-color, #b5b5b5) 65%,
+    var(--shiny-color, #b5b5b5) 100%
+  );
+  background-size: 200% auto;
+  background-position: 150% center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: shiny-slide var(--shiny-duration, 2s) linear infinite;
+  animation-delay: var(--shiny-delay, 0s);
+  animation-direction: var(--shiny-direction, normal);
+}
+
+.shiny-text--pause:hover .split-char,
+.shiny-text--pause:hover .split-word,
+.shiny-text--pause:hover.shiny-text--no-split {
+  animation-play-state: paused;
+}
+
+.shiny-text--disabled .split-char,
+.shiny-text--disabled .split-word,
+.shiny-text--disabled.shiny-text--no-split {
+  animation: none;
+  background-position: 50% center;
+}
+
+@keyframes shiny-slide {
+  from {
+    background-position: 150% center;
+  }
+  to {
+    background-position: -50% center;
+  }
+}

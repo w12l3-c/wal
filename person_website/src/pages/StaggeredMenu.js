@@ -1,5 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import { Link } from 'react-router-dom';
 import './StaggeredMenu.css';
 
 export const StaggeredMenu = ({
@@ -365,9 +366,9 @@ export const StaggeredMenu = ({
         })()}
       </div>
       <header className="staggered-menu-header" aria-label="Main navigation header">
-        <a href="/wal" className="sm-logo" aria-label="Go to home page">
+        <Link to="/" className="sm-logo" aria-label="Go to home page">
           <span className="sm-logo-emoji">🔥</span>
-        </a>
+        </Link>
         <button
           ref={toggleBtnRef}
           className="sm-toggle"
@@ -399,9 +400,9 @@ export const StaggeredMenu = ({
             {items && items.length ? (
               items.map((it, idx) => (
                 <li className="sm-panel-itemWrap" key={it.label + idx}>
-                  <a className="sm-panel-item" href={it.link} aria-label={it.ariaLabel} data-index={idx + 1}>
+                  <Link className="sm-panel-item" to={it.link} aria-label={it.ariaLabel} data-index={idx + 1}>
                     <span className="sm-panel-itemLabel">{it.label}</span>
-                  </a>
+                  </Link>
                 </li>
               ))
             ) : (

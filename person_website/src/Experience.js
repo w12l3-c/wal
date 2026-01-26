@@ -3,7 +3,13 @@ import { Link } from 'react-router-dom';
 import './Experience.css';
 
 import StaggeredMenu from './pages/StaggeredMenu.js';
+import Waves from './Waves';
 import Footer from './pages/Footer.js';
+import SplitText from './SplitText';
+import ShinyText from './ShinyText';
+import MagicBento from './MagicBento';
+import ColorBends from './ColorBends';
+import Aurora from './Aurora';
 
 import placeholder from './assets/placeholder.jpeg';
 import sunnybrook from './assets/experience/sunnybrook.JPG';
@@ -20,28 +26,190 @@ import sickkids from './assets/experience/sickkids.webp';
 
 function Experience() {
     useEffect(() => {
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+        const containers = Array.from(document.querySelectorAll('.experience-item'));
+        const images = Array.from(document.querySelectorAll('.experience-image'));
+        const scrollTrack = document.querySelector('.work-scroll-track');
+        const imageContainer = document.querySelector('.experience-image-container');
+        const transitionRatio = 0.1;
+
+        if (!scrollTrack || containers.length === 0) {
+            return undefined;
+        }
+
+        let ticking = false;
+
+        const updateTrackHeight = () => {
+            const segmentHeight = window.innerHeight * 0.8;
+            const extraScroll = segmentHeight * transitionRatio * 2;
+            const tailSpace = window.innerHeight * 0.6;
+            scrollTrack.style.height = `${containers.length * segmentHeight + extraScroll + tailSpace}px`;
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                }
-            });
-        }, observerOptions);
+        const handleScroll = () => {
+            if (ticking) return;
+            ticking = true;
 
-        // Observe all sections
+            window.requestAnimationFrame(() => {
+                const windowHeight = window.innerHeight;
+                const scrollPerContainer = windowHeight * 0.8;
+                const transitionWindow = scrollPerContainer * transitionRatio;
+                const trackTop = scrollTrack.getBoundingClientRect().top + window.scrollY;
+                const scrollInTrack = Math.max(window.scrollY - trackTop, 0);
+                const totalScrollHeight = containers.length * scrollPerContainer;
+                const imageVisible = scrollInTrack <= totalScrollHeight + transitionWindow - 10;
+
+                if (imageContainer) {
+                    imageContainer.style.opacity = imageVisible ? '1' : '0';
+                    imageContainer.style.pointerEvents = imageVisible ? 'auto' : 'none';
+                }
+
+                containers.forEach((container, index) => {
+                    const containerStart = index * scrollPerContainer;
+                    const containerEnd = (index + 1) * scrollPerContainer;
+                    const fadeOutStart = containerEnd - transitionWindow;
+                    const fadeOutEnd = containerEnd + transitionWindow;
+                    const fadeInStart = containerStart - transitionWindow;
+                    const fadeInEnd = containerStart + transitionWindow;
+
+                    let opacity = 0;
+                    let translateY = 60;
+
+                    if (index === 0 && scrollInTrack < transitionWindow) {
+                        opacity = 1;
+                        translateY = 0;
+                    } else if (scrollInTrack >= fadeInEnd && scrollInTrack < fadeOutStart) {
+                        opacity = 1;
+                        translateY = 0;
+                    } else if (index === containers.length - 1 && scrollInTrack >= fadeInEnd && scrollInTrack < totalScrollHeight + transitionWindow) {
+                        opacity = 1;
+                        translateY = 0;
+                    } else if (scrollInTrack >= fadeOutStart && scrollInTrack < fadeOutEnd) {
+                        const progress = (scrollInTrack - fadeOutStart) / (transitionWindow * 2);
+                        opacity = Math.max(0, 1 - progress);
+                        translateY = -progress * 120;
+                    } else if (scrollInTrack >= fadeInStart && scrollInTrack < fadeInEnd) {
+                        const progress = (scrollInTrack - fadeInStart) / (transitionWindow * 2);
+                        opacity = Math.max(0, progress);
+                        translateY = (1 - progress) * 80;
+                    } else if (scrollInTrack >= fadeOutEnd) {
+                        opacity = 0;
+                        translateY = -120;
+                    }
+
+                    container.style.opacity = opacity;
+                    container.style.transform = `translateY(${translateY}px)`;
+                    container.style.pointerEvents = opacity > 0.6 ? 'auto' : 'none';
+
+                    const image = images[index];
+                    if (image) {
+                        let imageOpacity = opacity;
+                        if (index === containers.length - 1 && scrollInTrack >= fadeOutStart - 10) {
+                            imageOpacity = 0;
+                        }
+                        image.style.opacity = String(imageOpacity);
+                    }
+
+                    const line = container.querySelector('.vertical-line');
+                    if (line) {
+                        const lineProgress = Math.min(
+                            Math.max((scrollInTrack - containerStart) / scrollPerContainer, 0),
+                            1
+                        );
+                        line.style.setProperty('--fill-height', `${lineProgress * 100}%`);
+                    }
+                });
+
+                if (scrollInTrack >= totalScrollHeight + transitionWindow) {
+                    images.forEach((img) => {
+                        img.style.opacity = '0';
+                    });
+                }
+
+                ticking = false;
+            });
+        };
+
+        const handleResize = () => {
+            updateTrackHeight();
+            handleScroll();
+        };
+
+        updateTrackHeight();
+        handleScroll();
+        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    useEffect(() => {
         const sections = document.querySelectorAll('.fade-in-section');
-        sections.forEach(section => observer.observe(section));
+        if (sections.length === 0) return undefined;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    } else {
+                        entry.target.classList.remove('animate-in');
+                    }
+                });
+            },
+            { threshold: 0.2 }
+        );
+
+        sections.forEach((section) => observer.observe(section));
 
         return () => observer.disconnect();
     }, []);
+
+    useEffect(() => {
+        const container = document.querySelector('.experience-image-container');
+        const wrapper = document.querySelector('.experience-image-wrapper');
+        if (!container || !wrapper) return undefined;
+
+        const maxTilt = 8;
+        let rafId = null;
+
+        const handleMove = (event) => {
+            if (window.matchMedia('(hover: none)').matches) return;
+            const rect = container.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const px = (x / rect.width) * 2 - 1;
+            const py = (y / rect.height) * 2 - 1;
+            const rotateX = (-py * maxTilt).toFixed(2);
+            const rotateY = (px * maxTilt).toFixed(2);
+
+            if (rafId) cancelAnimationFrame(rafId);
+            rafId = requestAnimationFrame(() => {
+                wrapper.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            });
+        };
+
+        const resetTilt = () => {
+            if (rafId) cancelAnimationFrame(rafId);
+            wrapper.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+        };
+
+        container.addEventListener('mousemove', handleMove);
+        container.addEventListener('mouseleave', resetTilt);
+        container.addEventListener('touchstart', resetTilt, { passive: true });
+
+        return () => {
+            container.removeEventListener('mousemove', handleMove);
+            container.removeEventListener('mouseleave', resetTilt);
+            container.removeEventListener('touchstart', resetTilt);
+            if (rafId) cancelAnimationFrame(rafId);
+        };
+    }, []);
     
     const menuItems = [
-        { label: 'Home', ariaLabel: 'Go to home page', link: '/wal' },
+        { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
         { label: 'Experience', ariaLabel: 'View experience', link: '/Experience' },
         { label: 'Projects', ariaLabel: 'View projects', link: '/Projects' },
         { label: 'Hobbies', ariaLabel: 'View hobbies', link: '/Hobbies' }
@@ -51,6 +219,64 @@ function Experience() {
         { label: 'GitHub', link: 'https://github.com' },
         { label: 'LinkedIn', link: 'https://linkedin.com' }
     ];
+
+    const awards = [
+        {
+            title: "Published Paper in CVPR 2025 MetaFood Workshop",
+            subtitle: 'University of Waterloo',
+            label: '2025',
+            description: 'Dietary Intake Estimation via Continuous 3D Reconstruction of Food',
+            tier: 'gold'
+        },
+        {
+            title: "2 Academic Poster in CVIS 2024",
+            subtitle: 'University of Waterloo',
+            label: '2025',
+            description: 'Challenges and Approaches to 3D Reconstruction of Food for Dietary Behaviours Monitoring & Enhancing AI-powered Tuberculosis Screening: Preliminary Insights into Adversarial Robustness',
+            tier: 'gold'
+        },
+        {
+            title: "President's Research Award",
+            subtitle: 'University of Waterloo',
+            label: '2022 - 2025',
+            description: 'Consecutive recognition for outstanding undergraduate research contributions',
+            tier: 'gold'
+        },
+        {
+            title: "Dean's Honours List",
+            subtitle: 'University of Waterloo',
+            label: 'Multiple Terms',
+            description: 'Recognition for academic excellence with term average ≥80%',
+            tier: 'gold'
+        },
+        {
+            title: '1st Place Academic Poster Competition',
+            subtitle: 'Sunnybrook Research Institute',
+            label: '2023',
+            description: 'Won first place for research on MRI segmentation for focused ultrasound surgery',
+            tier: 'gold'
+        },
+        {
+            title: 'Silver Medal',
+            subtitle: 'Waterloo iGEM Team',
+            label: '2025',
+            description: 'International competition recognition for microbiome therapeutic solutions project',
+            tier: 'silver'
+        },
+        {
+            title: 'Bronze Medal',
+            subtitle: 'Waterloo iGEM Team',
+            label: '2023',
+            description: 'International competition recognition for microbiome therapeutic solutions project',
+            tier: 'bronze'
+        }
+    ];
+
+    const awardGlow = {
+        gold: '255, 204, 64',
+        silver: '200, 200, 210',
+        bronze: '205, 127, 50'
+    };
     
     return(
         <div className='main1'>
@@ -68,131 +294,197 @@ function Experience() {
                 isFixed={true}
             />
             <div className='experience'>
-                <div className='Work fade-in-section'>
+                <div className='Work'>
+                    <Waves
+                        lineColor="#7c7c7cff"
+                        backgroundColor="rgba(255, 255, 255, 0.0)"
+                        waveSpeedX={0.0125}
+                        waveSpeedY={0.01}
+                        waveAmpX={40}
+                        waveAmpY={20}
+                        friction={0.9}
+                        tension={0.01}
+                        maxCursorMove={120}
+                        xGap={12}
+                        yGap={36}
+                        className="work-waves"
+                    />
                     <h1>Work Experience</h1>
                     <div className='work-flex'>
-                        <div className='container fade-in-section'>
-                            <div className='vertical-line'></div>
-                            <div className='box'>
-                                <div className='box-content'>
-                                    <h3>Biomedical Engineering Intern</h3>
-                                    <h4>Cognixion Inc.</h4>
-                                    <h5>Jan 2026 - Apr 2026</h5>
-                                    <ul>
-                                        <li>Designing and Researching Adaptive Filter Algorithm to filter intrinsic and extrinsic EEG noise to improve signal quality aquired from company's EEG headset</li>
-                                    </ul>
-                                </div>
-                                <div className='box-image'>
-                                    <img src={cognixion} alt='Safari AI' className='rounded-rectangle' loading="lazy" decoding="async"></img>
-                                </div>
+                        <div className='experience-image-container'>
+                            <div className='experience-image-wrapper'>
+                                <img src={cognixion} alt='Cognixion' className='experience-image' data-index="0" />
+                                <img src={safari} alt='Safari AI' className='experience-image' data-index="1" />
+                                <img src={nrc} alt='NRC' className='experience-image' data-index="2" />
+                                <img src={vip} alt='VIP Lab' className='experience-image' data-index="3" />
+                                <img src={sickkids} alt='SickKids' className='experience-image' data-index="4" />
+                                <img src={sunnybrook} alt='Sunnybrook' className='experience-image' data-index="5" />
                             </div>
                         </div>
-                        <div className='container fade-in-section'>
-                            <div className='vertical-line'></div>
-                            <div className='box'>
-                                <div className='box-content'>
-                                    <h3>Machine Learning Engineering Intern</h3>
-                                    <h4>Safari AI</h4>
-                                    <h5>May 2024 - August 2024</h5>
-                                    <ul>
-                                        <li>Building computer vision products using detectors and various algorithms such as optical flow and geometry relation to generate business statistics and dashboards</li>
-                                        <li>Using AWS Sagemaker, S3, Lambda, ECS, Postgresql, and FastAPI to create a Queue API for fast video inference customization and resource management for AI Sagemaker jobs</li>
-                                        <li>Training and deploying detection models such as RTMDet and Fast RCNN on custom data with OpenMME</li>
-                                        <li>Creating dashboards that draw data from InfluxDB and turn it into an aesthetic display of business statistics such as throughput, ingress/egress, real-time occupation etc.</li>
-                                    </ul>
-                                </div>
-                                <div className='box-image'>
-                                    <img src={safari} alt='Safari AI' className='rounded-rectangle' loading="lazy" decoding="async"></img>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='container fade-in-section'>
-                            <div className='vertical-line'></div>
-                            <div className='box'>
-                                <div className='box-content'>
-                                    <h3>Machine Learning Research Intern</h3>
-                                    <h4>National Research Council Canada (NRC)</h4>
-                                    <h5>September 2024 - Present</h5>
-                                    <ul>
-                                        <li>Research adversarial attack/defense strategies for medical imaging; improved robust accuracy on chest X-ray classification from 28% to 98% under defined attack settings (PGDInf)</li>
-                                        <li>Implemented a MultiLayer detector over penultimate-layer embeddings to separate adversarial vs. clean inputs</li>
-                                        <li>Fine-tuned CNN and ViT backbones (ResNet50, DenseNet121, ViT, DeiT) from Chexpert models to classify chest X-rays (healthy, tuberculosis, COVID-19) and integrated Grad-CAM for clinician-oriented explanations</li>
-                                    </ul>
-                                </div>
-                                <div className='box-image'>
-                                    <img src={nrc} alt='NRC' className='rounded-rectangle' loading="lazy" decoding="async"></img>
+                        <div className='work-scroll-track'>
+                            <div className='experience-item' data-index="0">
+                                <div className='container'>
+                                    <div className='vertical-line'></div>
+                                    <div className='box'>
+                                        <div className='box-wrapper'>
+                                            <div className='box-content'>
+                                                <h3>Biomedical Engineering Intern</h3>
+                                                <h4>Cognixion Inc.</h4>
+                                                <h5>Jan 2026 - Apr 2026</h5>
+                                                <ul>
+                                                    <li>Designing and Researching Adaptive Filter Algorithm to filter intrinsic and extrinsic EEG noise to improve signal quality aquired from company's EEG headset</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className='container'>
-                            <div className='vertical-line'></div>
-                            <div className='box'>
-                                <div className='box-content'>
-                                    <h3>Computer Vision Research Assistant</h3>
-                                    <h4>Vision and Image Processing Lab</h4>
-                                    <h5>September 2023 - Present</h5>
-                                    <ul>
-                                        <li>Utilizing pose and mesh estimation techniques to perform 3D reconstruction of food and hand interactions from monocular videos (research published in CVPR 2025 MetaFood Workshop)</li>
-                                        <li>Employing Generative AI techniques (LoRA, DreamBooth, Diffusion Models) to create synthetic data and expand COVID x-ray datasets</li>
-                                        <li>Investigating foreign object detection in x-ray images using Fast R-CNN and Visual Language Models to create x-ray description labels for precise generation</li>
-                                        <li>Generative AI research for controllable animation to apply realistic and dynamic movements on characters with video input</li>
-                                        <li>Explore using 3D Gaussian Splatting to map out open large space such as an office or campus</li>
-                                        <li>Researched Live2D Generative Models and Motion Tracking applications</li>
-                                    </ul>
-                                </div>
-                                <div className='box-image'>
-                                    <img src={vip} alt='VIP Lab' className='rounded-rectangle' loading="lazy" decoding="async"></img>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='container'>
-                            <div className='vertical-line'></div>
-                            <div className='box'>
-                                <div className='box-content'>
-                                    <h3>Robotics and Machine Learning Research Assistant</h3>
-                                    <h4>The Hospital for Sick Children (SickKids) - CIGITI Lab</h4>
-                                    <h5>January 2024 - April 2024</h5>
-                                    <ul>
-                                        <li>Developed Fetal and Maternal segmentation pipeline to aid Magnetic Resonance guided Focused Ultrasound (FUS) treatment simulation</li>
-                                        <li>Built FUS simulator for treatment cell planning and safety validation of FUS treatment using acoustic and thermal simulations with kWave</li>
-                                        <li>Research in diffusion-based models such as instruct pix2pix and biophysics embedded ML for time-series Laser Interstitial thermal therapy heatmap prediction to improve surgery planning workflow</li>
-                                        <li>Designed and simulated controllers for 6 DOF MR-safe robot-controlled transducers using Robot Operating System (ROS), RViz, and Gazebo</li>
-                                    </ul>
-                                </div>
-                                <div className='box-image'>
-                                    <img src={sickkids} alt='SickKids' className='rounded-rectangle' loading="lazy" decoding="async"></img>
+                            
+                            <div className='experience-item' data-index="1">
+                                <div className='container'>
+                                    <div className='vertical-line'></div>
+                                    <div className='box'>
+                                        <div className='box-wrapper'>
+                                            <div className='box-content'>
+                                                <h3>Machine Learning Engineering Intern</h3>
+                                                <h4>Safari AI</h4>
+                                                <h5>May 2024 - August 2024</h5>
+                                                <ul>
+                                                    <li>Building computer vision products using detectors and various algorithms such as optical flow and geometry relation to generate business statistics and dashboards</li>
+                                                    <li>Using AWS Sagemaker, S3, Lambda, ECS, Postgresql, and FastAPI to create a Queue API for fast video inference customization and resource management for AI Sagemaker jobs</li>
+                                                    <li>Training and deploying detection models such as RTMDet and Fast RCNN on custom data with OpenMME</li>
+                                                    <li>Creating dashboards that draw data from InfluxDB and turn it into an aesthetic display of business statistics such as throughput, ingress/egress, real-time occupation etc.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className='container'>
-                            <div className='vertical-line'></div>
-                            <div className='box'>
-                                <div className='box-content'>
-                                    <h3>Machine Learning Research Assistant</h3>
-                                    <h4>Focused Ultrasound Lab - Sunnybrook Research Institute</h4>
-                                <h5>May 2023 - August 2023</h5>
-                                <ul>
-                                    <li>Achieve 99.97% time reduction in MRI regional segmentation by implementing 3D and 2D Machine Learning pipeline with 89.5 dice score </li>
-                                    <li>Create a segmentation dataset with 8K masks on MRI dicom files for MRI Guided Focused Ultrasound Surgery of Uterine Fibroids</li>
-                                    <li>Develop a GUI with streamlit to allow custom model inference and a Huggingface Demo with gradio</li>
-                                    <li>Win 1st place in Sunnybrook’s academic poster competition</li>
-                                </ul>
+                            
+                            <div className='experience-item' data-index="2">
+                                <div className='container'>
+                                    <div className='vertical-line'></div>
+                                    <div className='box'>
+                                        <div className='box-wrapper'>
+                                            <div className='box-content'>
+                                                <h3>Machine Learning Research Intern</h3>
+                                                <h4>National Research Council Canada (NRC)</h4>
+                                                <h5>September 2024 - Present</h5>
+                                                <ul>
+                                                    <li>Research adversarial attack/defense strategies for medical imaging; improved robust accuracy on chest X-ray classification from 28% to 98% under defined attack settings (PGDInf)</li>
+                                                    <li>Implemented a MultiLayer detector over penultimate-layer embeddings to separate adversarial vs. clean inputs</li>
+                                                    <li>Fine-tuned CNN and ViT backbones (ResNet50, DenseNet121, ViT, DeiT) from Chexpert models to classify chest X-rays (healthy, tuberculosis, COVID-19) and integrated Grad-CAM for clinician-oriented explanations</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className='box-image'>
-                                    <img src={sunnybrook} alt='Sunnybrook' className='rounded-rectangle' loading="lazy" decoding="async"></img>
+                            </div>
+                            
+                            <div className='experience-item' data-index="3">
+                                <div className='container'>
+                                    <div className='vertical-line'></div>
+                                    <div className='box'>
+                                        <div className='box-wrapper'>
+                                            <div className='box-content'>
+                                                <h3>Computer Vision Research Assistant</h3>
+                                                <h4>Vision and Image Processing Lab</h4>
+                                                <h5>September 2023 - Present</h5>
+                                            <ul>
+                                                <li>Utilizing pose and mesh estimation techniques to perform 3D reconstruction of food and hand interactions from monocular videos (research published in CVPR 2025 MetaFood Workshop)</li>
+                                                <li>Employing Generative AI techniques (LoRA, DreamBooth, Diffusion Models) to create synthetic data and expand COVID x-ray datasets</li>
+                                                <li>Investigating foreign object detection in x-ray images using Fast R-CNN and Visual Language Models to create x-ray description labels for precise generation</li>
+                                                <li>Generative AI research for controllable animation to apply realistic and dynamic movements on characters with video input</li>
+                                                <li>Explore using 3D Gaussian Splatting to map out open large space such as an office or campus</li>
+                                                <li>Researched Live2D Generative Models and Motion Tracking applications</li>
+                                            </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className='experience-item' data-index="4">
+                                <div className='container'>
+                                    <div className='vertical-line'></div>
+                                    <div className='box'>
+                                        <div className='box-wrapper'>
+                                            <div className='box-content'>
+                                                <h3>Robotics and Machine Learning Research Assistant</h3>
+                                                <h4>The Hospital for Sick Children (SickKids) - CIGITI Lab</h4>
+                                                <h5>January 2024 - April 2024</h5>
+                                            <ul>
+                                                <li>Developed Fetal and Maternal segmentation pipeline to aid Magnetic Resonance guided Focused Ultrasound (FUS) treatment simulation</li>
+                                                <li>Built FUS simulator for treatment cell planning and safety validation of FUS treatment using acoustic and thermal simulations with kWave</li>
+                                                <li>Research in diffusion-based models such as instruct pix2pix and biophysics embedded ML for time-series Laser Interstitial thermal therapy heatmap prediction to improve surgery planning workflow</li>
+                                                <li>Designed and simulated controllers for 6 DOF MR-safe robot-controlled transducers using Robot Operating System (ROS), RViz, and Gazebo</li>
+                                            </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className='experience-item' data-index="5">
+                                <div className='container'>
+                                    <div className='vertical-line'></div>
+                                    <div className='box'>
+                                        <div className='box-wrapper'>
+                                            <div className='box-content'>
+                                                <h3>Machine Learning Research Assistant</h3>
+                                                <h4>Focused Ultrasound Lab - Sunnybrook Research Institute</h4>
+                                                <h5>May 2023 - August 2023</h5>
+                                            <ul>
+                                                <li>Achieve 99.97% time reduction in MRI regional segmentation by implementing 3D and 2D Machine Learning pipeline with 89.5 dice score </li>
+                                                <li>Create a segmentation dataset with 8K masks on MRI dicom files for MRI Guided Focused Ultrasound Surgery of Uterine Fibroids</li>
+                                                <li>Develop a GUI with streamlit to allow custom model inference and a Huggingface Demo with gradio</li>
+                                                <li>Win 1st place in Sunnybrook's academic poster competition</li>
+                                            </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="to-be-continued">
-                        <span>.</span><span>.</span><span>.</span>
-                        <span>T</span><span>o</span><span> </span>
-                        <span>b</span><span>e</span><span> </span>
-                        <span>C</span><span>o</span><span>n</span><span>t</span><span>i</span><span>n</span><span>u</span><span>e</span><span>d</span>
-                        <span>.</span><span>.</span><span>.</span>
+                        <ShinyText
+                            speed={2}
+                            delay={0}
+                            color="#7c4dff"
+                            shineColor="#ffffff"
+                            spread={120}
+                            direction="left"
+                            yoyo={false}
+                            pauseOnHover={false}
+                            disabled={false}
+                            className="to-be-continued-text"
+                            as="div"
+                        >
+                            <SplitText
+                                text="... To be Continued ..."
+                                className="to-be-continued-text-inner"
+                                delay={50}
+                                duration={1.25}
+                                ease="power3.out"
+                                splitType="chars"
+                                from={{ opacity: 0, y: 40 }}
+                                to={{ opacity: 1, y: 0 }}
+                                threshold={0.1}
+                                rootMargin="-100px"
+                                textAlign="center"
+                                tag="h2"
+                            />
+                        </ShinyText>
                     </div>
                 </div>
                 <div className='Education fade-in-section'>
+                    {/* <Aurora
+                        colorStops={['#7cff67', '#B19EEF', '#5227FF']}
+                        blend={0.5}
+                        amplitude={1.0}
+                        speed={1}
+                    /> */}
                     <h1>Design Teams</h1>
                     <div className='work-flex'>
                         <div className='edu-container fade-in-section'>
@@ -263,7 +555,7 @@ function Experience() {
                         </div>
                     </div>
                 </div>
-                <div className='Skills'>
+                <div className='Skills fade-in-section'>
                     <h1 style={{textAlign: 'center'}}>Technical Skills</h1>
                     <div className='skills-grid'>
                         <div className='skill-category'>
@@ -321,39 +613,37 @@ function Experience() {
                     </div>
                 </div>
                 <div className='Awards'>
+                    <ColorBends
+                        colors={['#fb432bff', '#24f8aaff', '#2200ffff']}
+                        rotation={0}
+                        speed={0.2}
+                        scale={1}
+                        frequency={1}
+                        warpStrength={1}
+                        mouseInfluence={1}
+                        parallax={0.5}
+                        noise={0.1}
+                        transparent
+                        autoRotate={0}
+                    />
                     <h1>Awards & Recognition</h1>
-                    <div className='awards-list'>
-                        <div className='award-item'>
-                            <h3>President's Research Award</h3>
-                            <h4>University of Waterloo</h4>
-                            <h5>2022, 2023, 2024, 2025</h5>
-                            <p>Consecutive recognition for outstanding undergraduate research contributions</p>
-                        </div>
-                        <div className='award-item'>
-                            <h3>Dean's Honours List</h3>
-                            <h4>University of Waterloo</h4>
-                            <h5>Multiple Terms</h5>
-                            <p>Recognition for academic excellence with term average ≥80%</p>
-                        </div>
-                        <div className='award-item'>
-                            <h3>1st Place Academic Poster Competition</h3>
-                            <h4>Sunnybrook Research Institute</h4>
-                            <h5>2023</h5>
-                            <p>Won first place for research on MRI segmentation for focused ultrasound surgery</p>
-                        </div>
-                        <div className='award-item'>
-                            <h3>Silver Medal</h3>
-                            <h4>Waterloo iGEM Team</h4>
-                            <h5>2025</h5>
-                            <p>International competition recognition for microbiome therapeutic solutions project</p>
-                        </div>
-                        <div className='award-item'>
-                            <h3>Bronze Medal</h3>
-                            <h4>Waterloo iGEM Team</h4>
-                            <h5>2023</h5>
-                            <p>International competition recognition for microbiome therapeutic solutions project</p>
-                        </div>
-                    </div>
+                    <MagicBento
+                        textAutoHide={true}
+                        enableStars={false}
+                        enableSpotlight
+                        enableBorderGlow={true}
+                        enableTilt
+                        enableMagnetism
+                        clickEffect
+                        spotlightRadius={500}
+                        particleCount={12}
+                        glowColor="132, 0, 255"
+                        disableAnimations={false}
+                        cards={awards.map((award) => ({
+                            ...award,
+                            glowColor: awardGlow[award.tier] || awardGlow.gold
+                        }))}
+                    />
                 </div>
             </div>
             

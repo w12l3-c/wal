@@ -8,7 +8,7 @@ import './Hobbies.css';
 // Import hobby images
 import violin from './assets/home_slider/violin.jpeg';
 import badminton from './assets/home_slider/badminton.jpeg';
-import drawing from './assets/home_slider/drawing.jpeg';
+import drawing from './assets/home_slider/drawing.webp';
 
 function Hobbies() {
     const [selectedHobby, setSelectedHobby] = useState(0);
@@ -65,7 +65,7 @@ function Hobbies() {
     }, [isPaused, regularHobbies.length]);
 
     const menuItems = [
-        { label: 'Home', ariaLabel: 'Go to home page', link: '/wal' },
+        { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
         { label: 'Experience', ariaLabel: 'View experience', link: '/Experience' },
         { label: 'Projects', ariaLabel: 'View projects', link: '/Projects' },
         { label: 'Hobbies', ariaLabel: 'View hobbies', link: '/Hobbies' }

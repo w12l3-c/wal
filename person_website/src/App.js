@@ -14,12 +14,12 @@ import './App.css';
 function App() {
   return (
     <div className='App'>
-      <Router>
+      <Router basename="/wal">
         <Routes>
-          <Route path="wal" element={<Home />} />
-          <Route path="Experience" element={<Experience />} />
-          <Route path="Projects" element={<Projects />} />
-          <Route path="Hobbies" element={<Hobbies />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/Experience" element={<Experience />} />
+          <Route path="/Projects" element={<Projects />} />
+          <Route path="/Hobbies" element={<Hobbies />} />
         </Routes>
       </Router>
     </div>

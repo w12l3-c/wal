@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
+import { Link } from 'react-router-dom';
 
 import './FlowingMenu.css';
 
@@ -61,6 +62,8 @@ function MenuItem({ link, text, image, speed, textColor, marqueeBgColor, marquee
       if (!marqueeContent) return;
 
       const contentWidth = marqueeContent.offsetWidth;
+      if (!contentWidth) return; // Safety check for zero width
+      
       const viewportWidth = window.innerWidth;
 
       // Calculate how many copies we need to fill viewport + extra for seamless loop
@@ -69,9 +72,13 @@ function MenuItem({ link, text, image, speed, textColor, marqueeBgColor, marquee
       setRepetitions(Math.max(4, needed));
     };
 
-    calculateRepetitions();
+    // Delay initial calculation to ensure DOM is ready
+    const timer = setTimeout(calculateRepetitions, 100);
     window.addEventListener('resize', calculateRepetitions);
-    return () => window.removeEventListener('resize', calculateRepetitions);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', calculateRepetitions);
+    };
   }, [text, image]);
 
   useEffect(() => {
@@ -137,15 +144,15 @@ function MenuItem({ link, text, image, speed, textColor, marqueeBgColor, marquee
 
   return (
     <div className="menu__item" ref={itemRef} style={{ borderColor }}>
-      <a
+      <Link
         className="menu__item-link"
-        href={link}
+        to={link}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         style={{ color: textColor }}
       >
         {text}
-      </a>
+      </Link>
       <div className="marquee" ref={marqueeRef} style={{ backgroundColor: marqueeBgColor }}>
         <div className="marquee__inner-wrap">
           <div className="marquee__inner" ref={marqueeInnerRef} aria-hidden="true">

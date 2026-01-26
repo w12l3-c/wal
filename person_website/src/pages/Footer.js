@@ -2,7 +2,7 @@ import React from 'react';
 import './Footer.css';
 
 import gmail from '../assets/footer/gmail.png';
-import github from '../assets/footer/github.png';
+import github from '../assets/footer/github.webp';
 import linkedin from '../assets/footer/linkedin.png';
 
 function Footer(){
@@ -13,7 +13,7 @@ function Footer(){
                 <a href='https://github.com/w12l3-c' target='_blank'><img src={github} alt="github" /></a>
                 <a href="mailto:wwlee@uwaterloo.ca"><img src={gmail} alt="gmail" /></a>
             </div>
-            <p>Made by Wallace Lee • © 2025</p>
+            <p>Made by Wallace Lee • © 2026</p>
         </footer>
     );
 };

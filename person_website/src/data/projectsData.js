@@ -1,20 +1,20 @@
 import React from 'react';
 import placeholder from '../assets/placeholder.jpeg';
-import blood from '../assets/projects/blood.jpeg';
-import emg from '../assets/projects/emg.JPG';
+import blood from '../assets/projects/blood.webp';
+import emg from '../assets/projects/emg.webp';
 import breast from '../assets/projects/breast.jpeg';
 import brain from '../assets/projects/brain.avif';
 import stable from '../assets/projects/stable.webp';
 import doorlock from '../assets/projects/face.jpeg';
 import pneumonia from '../assets/projects/lung.avif';
 import protein from '../assets/projects/protein.webp';
-import heart from '../assets/projects/heart.jpg';
-import row from '../assets/projects/row.jpeg';
-import narwhale from '../assets/projects/narwhale.jpeg';
-import ultrasound from '../assets/projects/ultrasound.jpeg';
-import pose from '../assets/projects/facial.jpeg';
+import heart from '../assets/projects/heart.webp';
+import row from '../assets/projects/row.webp';
+import narwhale from '../assets/projects/narwhale.webp';
+import ultrasound from '../assets/projects/ultrasound.webp';
+import pose from '../assets/projects/facial.webp';
 import loan from '../assets/projects/loan.png';
-import nutri from '../assets/projects/nutricartdemo.png';
+import nutri from '../assets/projects/nutricartdemo.webp';
 
 export const projectsData = [
     {
