@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-import StaggeredMenu from './pages/StaggeredMenu.js';
-import Footer from './pages/Footer.js';
-import LiquidChrome from './LiquidChrome';
+import StaggeredMenu from './StaggeredMenu.js';
+import Footer from './Footer.js';
+import LiquidChrome from '../components/effects/LiquidChrome';
 
 import './Projects.css';
-import { projectsData } from './data/projectsData.js';
+import { projectsData } from '../data/projectsData.js';
 
 function Projects() {
     const [showCarousel, setShowCarousel] = useState(true);

@@ -2,10 +2,10 @@ import React from 'react';
 import { render } from "react-dom";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import Home from './Home';
-import Experience from './Experience';
-import Hobbies from './Hobbies';
-import Projects from './Projects';
+import Home from './pages/Home';
+import Experience from './pages/Experience';
+import Hobbies from './pages/Hobbies';
+import Projects from './pages/Projects';
 
 import logo from './logo.svg';
 import './App.css';

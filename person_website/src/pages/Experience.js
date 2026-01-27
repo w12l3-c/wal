@@ -2,27 +2,27 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Experience.css';
 
-import StaggeredMenu from './pages/StaggeredMenu.js';
-import Waves from './Waves';
-import Footer from './pages/Footer.js';
-import SplitText from './SplitText';
-import ShinyText from './ShinyText';
-import MagicBento from './MagicBento';
-import ColorBends from './ColorBends';
-import Aurora from './Aurora';
+import StaggeredMenu from './StaggeredMenu.js';
+import Waves from '../components/effects/Waves';
+import Footer from './Footer.js';
+import SplitText from '../components/ui/SplitText';
+import ShinyText from '../components/ui/ShinyText';
+import MagicBento from '../components/ui/MagicBento';
+import ColorBends from '../components/effects/ColorBends';
+import Aurora from '../components/effects/Aurora';
 
-import placeholder from './assets/placeholder.jpeg';
-import sunnybrook from './assets/experience/sunnybrook.JPG';
-import vip from './assets/experience/vip.png';
-import watai from './assets/experience/wat_ai_logo.jpeg'
-import watolink from './assets/experience/watolink.jpeg';
-import igem from './assets/experience/igem.png';
-import biotron from './assets/experience/biotron.jpeg';
-import warg from './assets/experience/WARG.png';
-import nrc from './assets/experience/nrc.webp';
-import safari from './assets/experience/safari.webp';
-import cognixion from './assets/experience/cognixion.webp';
-import sickkids from './assets/experience/sickkids.webp';
+import placeholder from '../assets/misc/placeholder.jpeg';
+import sunnybrook from '../assets/pages/experience/sunnybrook.JPG';
+import vip from '../assets/pages/experience/vip.png';
+import watai from '../assets/pages/experience/wat_ai_logo.jpeg'
+import watolink from '../assets/pages/experience/watolink.jpeg';
+import igem from '../assets/pages/experience/igem.png';
+import biotron from '../assets/pages/experience/biotron.jpeg';
+import warg from '../assets/pages/experience/WARG.png';
+import nrc from '../assets/pages/experience/nrc.webp';
+import safari from '../assets/pages/experience/safari.webp';
+import cognixion from '../assets/pages/experience/cognixion.webp';
+import sickkids from '../assets/pages/experience/sickkids.webp';
 
 function Experience() {
     useEffect(() => {

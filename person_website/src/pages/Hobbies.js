@@ -1,38 +1,38 @@
 import React, { useEffect, useMemo, useRef } from "react";
 
-import StaggeredMenu from './pages/StaggeredMenu.js';
-import Footer from './pages/Footer.js';
+import StaggeredMenu from './StaggeredMenu.js';
+import Footer from './Footer.js';
 
 import './Hobbies.css';
-import SplashCursor from './SplashCursor';
-import Masonry from './Masonry';
-import Beams from './Beams';
+import SplashCursor from '../components/effects/SplashCursor';
+import Masonry from '../components/ui/Masonry';
+import Beams from '../components/effects/Beams';
 
 // Import hobby images
-import drawing from './assets/home_slider/drawing.webp';
-import instagramLogo from './assets/Instagram_icon.png';
-import xLogo from './assets/x.png';
+import drawing from '../assets/pages/home/drawing.webp';
+import instagramLogo from '../assets/icons/social/Instagram_icon.png';
+import xLogo from '../assets/icons/social/x.png';
 
 function Hobbies() {
     const artSectionRef = useRef(null);
     // Art gallery images by folder
     const regularGallery = useMemo(() => {
-        const importAll = require.context('./assets/art/Regular', false, /\.(webp|png|jpe?g)$/);
+        const importAll = require.context('../assets/art/Regular', false, /\.(webp|png|jpe?g)$/);
         return importAll.keys().sort().map((key) => importAll(key));
     }, []);
 
     const artfightGallery = useMemo(() => {
-        const importAll = require.context('./assets/art/artfight', false, /\.(webp|png|jpe?g)$/);
+        const importAll = require.context('../assets/art/artfight', false, /\.(webp|png|jpe?g)$/);
         return importAll.keys().sort().map((key) => importAll(key));
     }, []);
 
     const inktober2023Gallery = useMemo(() => {
-        const importAll = require.context('./assets/art/inktober2023', false, /\.(webp|png|jpe?g)$/);
+        const importAll = require.context('../assets/art/inktober2023', false, /\.(webp|png|jpe?g)$/);
         return importAll.keys().sort().map((key) => importAll(key));
     }, []);
 
     const inktober2024Gallery = useMemo(() => {
-        const importAll = require.context('./assets/art/inktober2024', false, /\.(webp|png|jpe?g)$/);
+        const importAll = require.context('../assets/art/inktober2024', false, /\.(webp|png|jpe?g)$/);
         return importAll.keys().sort().map((key) => importAll(key));
     }, []);
     

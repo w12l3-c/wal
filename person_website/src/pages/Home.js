@@ -1,22 +1,22 @@
 import './Home.css'
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import logo from './assets/class_logo.png';
-import resumePdf from './assets/Wallace_Resume.pdf';
-import cvPdf from './assets/CV-3.pdf';
+import logo from '../assets/branding/class_logo.png';
+import resumePdf from '../assets/docs/Wallace_Resume.pdf';
+import cvPdf from '../assets/docs/CV-3.pdf';
 
-import violin from './assets/home_slider/violin.jpeg';
-import badminton from './assets/home_slider/badminton.jpeg';
-import drawing from './assets/home_slider/drawing.webp';
+import violin from '../assets/pages/home/violin.jpeg';
+import badminton from '../assets/pages/home/badminton.jpeg';
+import drawing from '../assets/pages/home/drawing.webp';
 
-import Footer from './pages/Footer.js';
-import StaggeredMenu from './pages/StaggeredMenu.js';
+import Footer from './Footer.js';
+import StaggeredMenu from './StaggeredMenu.js';
 
-import FloatingLines from './FloatingLines.js';
-import FlowingMenu from './FlowingMenu.js';
-import SplitText from './Shuffle.js';
-import { GlowEffect } from './components/GlowEffect';
-import DotGrid from './DotGrid';
+import FloatingLines from '../components/effects/FloatingLines.js';
+import FlowingMenu from '../components/ui/FlowingMenu.js';
+import SplitText from '../components/ui/Shuffle.js';
+import { GlowEffect } from '../components/effects/GlowEffect';
+import DotGrid from '../components/effects/DotGrid';
 
 function Home() {
     const [text, setText] = useState('');

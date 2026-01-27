@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 
-import menu from '../assets/sidebar/menu_FILL0_wght400_GRAD0_opsz24.svg';
-import close from '../assets/sidebar/close_FILL0_wght400_GRAD0_opsz24.svg';
+import menu from '../assets/icons/ui/menu_FILL0_wght400_GRAD0_opsz24.svg';
+import close from '../assets/icons/ui/close_FILL0_wght400_GRAD0_opsz24.svg';
 
 
 function Navbar(){

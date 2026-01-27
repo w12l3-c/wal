@@ -1,9 +1,9 @@
 import React from 'react';
 import './Footer.css';
 
-import gmail from '../assets/footer/gmail.png';
-import github from '../assets/footer/github.webp';
-import linkedin from '../assets/footer/linkedin.png';
+import gmail from '../assets/icons/social/gmail.png';
+import github from '../assets/icons/social/github.webp';
+import linkedin from '../assets/icons/social/linkedin.png';
 
 function Footer(){
     return (
