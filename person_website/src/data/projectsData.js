@@ -15,26 +15,15 @@ import ultrasound from '../assets/projects/ultrasound.webp';
 import pose from '../assets/projects/facial.webp';
 import loan from '../assets/projects/loan.png';
 import nutri from '../assets/projects/nutricartdemo.webp';
+import scribble from '../assets/projects/Scribble.webp';
+import symphonic from '../assets/projects/symphonic.webp';
+import inject from '../assets/projects/inject.webp';
+import medi from '../assets/projects/medi.webp';
+import arm from '../assets/projects/arm.webp';
+import mindcraft from '../assets/projects/mindcraft.webp';
+import discord from '../assets/projects/discord.png'
 
 export const projectsData = [
-    {
-        title: "Nutricart",
-        image: nutri,
-        link: 'https://github.com/m-chenie/NutriCart2.0',
-        technologies: ["React", "Typescript", "Selenium", "HTML/CSS/JS"],
-        description: "Chrome extension for tracking calories and nutrition of groceries with goal setting.",
-        longDescription: (
-            <>
-                <p>
-                    NutriCart is a chrome extension that allows users to balance health and concenience by tracking 
-                    calories and nutrition of their groceries. 
-                    <br/><br/>
-                    It also supports the user to set up goals for themselves and it will give them instant feedback on
-                    the nutritional status of the shopping cart and suggest healthier alternatives.
-                </p>
-            </>
-        )
-    },
     {
         title: "Custom EMG Detection Sleeve",
         image: emg,
@@ -256,75 +245,98 @@ export const projectsData = [
         )
     },
     {
-        title: "ScribbleSync",
-        image: placeholder,
-        link: '#',
-        technologies: ["React", "Node.js", "WebSocket", "Canvas API", "Express"],
-        description: "Real-time collaborative whiteboard application with WebSocket integration.",
+        title: "Nutricart",
+        image: nutri,
+        link: 'https://github.com/m-chenie/NutriCart2.0',
+        technologies: ["React", "Typescript", "Selenium", "HTML/CSS/JS"],
+        description: "Chrome extension for tracking calories and nutrition of groceries with goal setting.",
         longDescription: (
             <>
                 <p>
-                    Real-time collaborative whiteboard application with WebSocket integration, collaborative drawing features, and real-time synchronization across multiple users.
-                    Built for seamless remote collaboration and creative sessions.
+                    NutriCart is a chrome extension that allows users to balance health and concenience by tracking 
+                    calories and nutrition of their groceries. 
+                    <br/><br/>
+                    It also supports the user to set up goals for themselves and it will give them instant feedback on
+                    the nutritional status of the shopping cart and suggest healthier alternatives.
+                </p>
+            </>
+        )
+    },
+    {
+        title: "ScribbleSync",
+        image: scribble,
+        link: 'https://github.com/w12l3-c/ScribbleSync',
+        technologies: ["Flask", "GCP", "Cohere API", "CV", "OCR"],
+        description: "Real-time collaborative whiteboard application with Google Calendar integration.",
+        longDescription: (
+            <>
+                <p>
+                    Developed a smart sticky note web application by using Flask and Google Cloud APIs to digitize handwriting notes and automatically create Google Calendar events.
+                    Integrated Cohere APIs to fine-tune a text classification model and embedded a communication chatbot, enhancing the user experience
                 </p>
             </>
         )
     },
     {
         title: "Symphonic",
-        image: placeholder,
-        link: '#',
-        technologies: ["React", "Node.js", "Spotify API", "MongoDB", "Express"],
+        image: symphonic,
+        link: 'https://github.com/w12l3-c/deltaHacks10',
+        technologies: ["Flask", "MusicLM", "Pytorch", "Chatbot", "Cloudfare"],
         description: "React-based music discovery platform integrating multiple APIs.",
         longDescription: (
             <>
                 <p>
-                    React-based music discovery platform integrating multiple APIs for personalized music recommendations and social sharing features.
-                    Connects users through shared musical tastes and creates custom playlists.
+                    Designed to assist teachers and small-budget businesses by enabling cost-free and minimal-effort editing of lecture and advertisement videos
+                    Implemented MusicLM to generate custom, royalty-free music tailored to the video's surroundings and transcript, and deployed the solution using Flask
                 </p>
             </>
         )
     },
     {
         title: "InjectPro",
-        image: placeholder,
+        image: inject,
         link: '#',
-        technologies: ["Unity", "C#", "3D Graphics", "Physics Simulation", "Haptic Feedback"],
-        description: "3D simulation environment for medical training with haptic feedback.",
+        technologies: ["CAD", "Solidworks", "LTSpice", "Arduino", "EMG"],
+        description: "EMG Controlled Injector that can apply vaccination in 4 different angles",
         longDescription: (
             <>
                 <p>
-                    3D simulation environment for medical training with haptic feedback and accurate anatomical modeling.
-                    Provides realistic injection training scenarios for medical professionals and students.
+                    Prototype with Solidworks and 3D printed, Machined Aluminum Parts to make the motion smoother.
+                    Created EMG processing circuit with notch filter, second order bandpass filter, envelop detector, amplifier, full wave rectifier.
+                    Coded in Arduino to make it control 3 different servos from 3 different DOF.
                 </p>
             </>
         )
     },
     {
         title: "MediMentor",
-        image: placeholder,
-        link: '#',
-        technologies: ["Python", "NLP", "Machine Learning", "FastAPI", "OpenAI API"],
-        description: "AI-powered medical assistant chatbot for medical information.",
+        image: medi,
+        link: 'https://github.com/w12l3-c/BME-Study-LLM',
+        technologies: ["Python", "NLP", "Machine Learning", "RAG", "Langchain", "MCP"],
+        description: "AI-powered assistant chatbot for BME study",
         longDescription: (
             <>
                 <p>
-                    AI-powered medical assistant chatbot for medical information using natural language processing and medical knowledge bases.
-                    Provides reliable medical information and preliminary health assessments.
+                    Built a study assistant using open-source LLMs (Qwen, Mixtral, LLaMA) for biomedical coursework and literature review.
+                    Implemented retrieval-augmented generation (RAG) using LangChain with vector databases (ChromaDB) to ground responses in course materials.
+                    Developed agentic question-answering with reranking and prompt engineering to improve factual accuracy and reliability.
+                    Designed an MCP-inspired tool interface enabling LLM access to external services (Google Drive, Google Calendar).
+                    Provides reliable medical information for my academic study.
                 </p>
             </>
         )
     },
     {
-        title: "Discord Bot",
-        image: placeholder,
-        link: '#',
+        title: "Discord Art Bot",
+        image: discord,
+        link: 'https://github.com/w12l3-c/daily-art-bot',
         technologies: ["Python", "Discord.py", "SQLite", "API Integration", "Async Programming"],
-        description: "Multi-functional Discord bot with moderation, music, and utility features.",
+        description: "Multi-functional Discord bot that promotes art progression! User base ~100 people",
         longDescription: (
             <>
                 <p>
-                    Multi-functional Discord bot with moderation, music, and utility features. 
+                    Multi-functional Discord Gamification bot that promotes daily art progress, include duels and chaining to make custom gifs.
+                    Track People's writing submission for lore and challenges. 
                     Includes automated server management, custom commands, and integration with various APIs 
                     for enhanced server functionality and user engagement.
                 </p>
@@ -333,7 +345,7 @@ export const projectsData = [
     },
     {
         title: "5 DOF Robotic Arm",
-        image: placeholder,
+        image: arm,
         link: '#',
         technologies: ["Arduino", "Servo Control", "Inverse Kinematics", "C++", "3D Modeling", "Trajectory Planning"],
         description: "Custom-built 5 degrees of freedom robotic arm with precise servo control.",
@@ -343,6 +355,22 @@ export const projectsData = [
                     Custom-built 5 degrees of freedom robotic arm with precise servo control and trajectory planning. 
                     Features inverse kinematics calculations, path optimization, and real-time control interface 
                     for pick-and-place operations and educational demonstrations.
+                </p>
+            </>
+        )
+    },
+    {
+        title: "MindCraft",
+        image: mindcraft,
+        link: 'https://github.com/yaxinw04/htn25',
+        technologies: ["EEG", "EMG", "Pytorch", "PyQT5", "Controller"],
+        description: "Mind Control and Muscle Control Minecraft",
+        longDescription: (
+            <>
+                <p>
+                    Using motor imagery modality with gTec Unicorn to control motion in Minecraft with a Convolution Attention-based ML model, achieving 82% accuracy 
+                    Using an 8-channel EMG armband to control actions in Minecraft with a Convolution ML model, achieving 95% accuracy
+                    Developed UI for collecting EEG and EMG data from user, requires 3-5 minutes of calibration for the EEG system due to environmental changes
                 </p>
             </>
         )

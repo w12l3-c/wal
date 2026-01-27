@@ -1,68 +1,54 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 
 import StaggeredMenu from './pages/StaggeredMenu.js';
 import Footer from './pages/Footer.js';
 
 import './Hobbies.css';
+import SplashCursor from './SplashCursor';
+import Masonry from './Masonry';
+import Beams from './Beams';
 
 // Import hobby images
-import violin from './assets/home_slider/violin.jpeg';
-import badminton from './assets/home_slider/badminton.jpeg';
 import drawing from './assets/home_slider/drawing.webp';
+import instagramLogo from './assets/Instagram_icon.png';
+import xLogo from './assets/x.png';
 
 function Hobbies() {
-    const [selectedHobby, setSelectedHobby] = useState(0);
-    const [isPaused, setIsPaused] = useState(false);
-    
-    // Art gallery images - you can add more art pieces here
-    const artGallery = [
-        drawing, // placeholder - replace with actual art pieces
-        drawing,
-        drawing,
-        drawing,
-        drawing,
-        drawing,
-    ];
-    
-    const hobbies = [
-        {
-            title: "Music & Violin",
-            image: violin,
-            description: "I've been playing violin for over 8 years and love exploring different musical genres. From classical pieces to modern arrangements, music has been a constant source of creativity and relaxation in my life.",
-            skills: ["Classical Music", "Contemporary Arrangements", "Music Theory", "Performance"],
-            type: "regular"
-        },
-        {
-            title: "Badminton",
-            image: badminton,
-            description: "An avid badminton player who enjoys both casual games with friends and competitive matches. The sport has taught me strategy, quick reflexes, and the importance of teamwork.",
-            skills: ["Singles & Doubles", "Strategic Play", "Tournament Experience", "Coaching Basics"],
-            type: "regular"
-        },
-        {
-            title: "Digital Art & Drawing",
-            image: drawing,
-            description: "I enjoy creating digital artwork and traditional drawings as a way to express creativity outside of engineering. From character design to technical illustrations, art helps me see the world from different perspectives.",
-            skills: ["Digital Illustration", "Character Design", "Traditional Drawing", "Concept Art"],
-            type: "gallery",
-            gallery: artGallery
-        }
-    ];
+    const artSectionRef = useRef(null);
+    // Art gallery images by folder
+    const regularGallery = useMemo(() => {
+        const importAll = require.context('./assets/art/Regular', false, /\.(webp|png|jpe?g)$/);
+        return importAll.keys().sort().map((key) => importAll(key));
+    }, []);
 
-    // Separate hobbies into categories
-    const regularHobbies = hobbies.filter(h => h.type === "regular");
-    const artHobby = hobbies.find(h => h.type === "gallery");
+    const artfightGallery = useMemo(() => {
+        const importAll = require.context('./assets/art/artfight', false, /\.(webp|png|jpe?g)$/);
+        return importAll.keys().sort().map((key) => importAll(key));
+    }, []);
 
-    // Auto-transition effect for regular hobbies only
-    useEffect(() => {
-        if (!isPaused) {
-            const interval = setInterval(() => {
-                setSelectedHobby((prev) => (prev + 1) % regularHobbies.length);
-            }, 5000); // Change every 5 seconds
-            
-            return () => clearInterval(interval);
-        }
-    }, [isPaused, regularHobbies.length]);
+    const inktober2023Gallery = useMemo(() => {
+        const importAll = require.context('./assets/art/inktober2023', false, /\.(webp|png|jpe?g)$/);
+        return importAll.keys().sort().map((key) => importAll(key));
+    }, []);
+
+    const inktober2024Gallery = useMemo(() => {
+        const importAll = require.context('./assets/art/inktober2024', false, /\.(webp|png|jpe?g)$/);
+        return importAll.keys().sort().map((key) => importAll(key));
+    }, []);
+    
+    const artHobby = {
+        title: "Artfights and Inktobers!",
+        image: drawing,
+        description: "Artfights and Inktobers!",
+        gallery: regularGallery
+    };
+    const artRows = useMemo(() => {
+        return {
+            artfight: artfightGallery,
+            inktober2023: inktober2023Gallery,
+            inktober2024: inktober2024Gallery
+        };
+    }, [artfightGallery, inktober2023Gallery, inktober2024Gallery]);
 
     const menuItems = [
         { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
@@ -72,12 +58,44 @@ function Hobbies() {
     ];
 
     const socialItems = [
-        { label: 'GitHub', link: 'https://github.com' },
-        { label: 'LinkedIn', link: 'https://linkedin.com' }
+        { label: 'GitHub', link: 'https://github.com/w12l3-c' },
+        { label: 'LinkedIn', link: 'https://www.linkedin.com/in/wallace-lee-yh/' },
+        { label: 'Gmail', link: 'mailto:wwlee@uwaterloo.ca' }
     ];
+
+    useEffect(() => {
+        if (!artSectionRef.current) return;
+        const section = artSectionRef.current;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    section.classList.add('is-visible');
+                } else {
+                    section.classList.remove('is-visible');
+                }
+            },
+            { threshold: 0.2 }
+        );
+        observer.observe(section);
+        return () => observer.disconnect();
+    }, []);
 
     return(
         <div className="hobbies-main">
+            <SplashCursor />
+            <div className="hobbies-beams">
+                <Beams
+                    beamWidth={3}
+                    beamHeight={30}
+                    beamNumber={20}
+                    lightColor="#ffffff"
+                    speed={2}
+                    noiseIntensity={1.75}
+                    scale={0.2}
+                    rotation={30}
+                />
+            </div>
+            <div className="hobbies-content">
             <StaggeredMenu
                 position="right"
                 items={menuItems}
@@ -93,98 +111,116 @@ function Hobbies() {
             />
             
             <div className="hobbies-header">
-                <h1>My Hobbies</h1>
-                <p>Beyond engineering and technology, I have a passion for creative pursuits that keep me balanced and inspired.</p>
+                <h1>Art Gallery</h1>
+                <p>I like to draw</p>
+                <div className="hobbies-socials">
+                    <a
+                        href="https://www.instagram.com/firewal_art/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Instagram"
+                        className="hobbies-social-link"
+                    >
+                        <img src={instagramLogo} alt="" aria-hidden="true" />
+                    </a>
+                    <a
+                        href="https://x.com/firewal_"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="X"
+                        className="hobbies-social-link"
+                    >
+                        <img src={xLogo} alt="" aria-hidden="true" />
+                    </a>
+                </div>
             </div>
+
+            <section className="art-masonry-section">
+                <div className="art-section-header">
+                    <h2>Art and Collabs!</h2>
+                </div>
+                <Masonry
+                    items={regularGallery.reverse().map((img, index) => ({
+                        id: `regular-${index}`,
+                        img
+                    }))}
+                    ease="power3.out"
+                    duration={0.6}
+                    stagger={0.05}
+                    animateFrom="bottom"
+                    scaleOnHover
+                    hoverScale={0.97}
+                    blurToFocus
+                    colorShiftOnHover={false}
+                />
+            </section>
 
             
             {/* Art Gallery Section */}
-            {artHobby && (
-                <div className="art-section-container">
+            {artHobby && (artRows.artfight.length > 0 || artRows.inktober2023.length > 0 || artRows.inktober2024.length > 0) && (
+                <div ref={artSectionRef} className="art-section-container art-section--fade">
                     <div className="art-section-header">
                         <h2>{artHobby.title}</h2>
-                        <p>{artHobby.description}</p>
                     </div>
-
                     <div className="art-gallery-wrapper">
-                        {/* The marquee container that hides overflow */}
-                        <div className="art-marquee">
-                            {/* The moving track */}
-                            <div className="art-track">
-                                {/* First set of images */}
-                                {artHobby.gallery.map((art, index) => (
-                                    <div key={`set1-${index}`} className="art-item">
-                                        <img src={art} alt={`Art ${index + 1}`} />
-                                    </div>
-                                ))}
-                                {/* Duplicate set for seamless loop */}
-                                {artHobby.gallery.map((art, index) => (
-                                    <div key={`set2-${index}`} className="art-item">
-                                        <img src={art} alt={`Art ${index + 1}`} />
-                                    </div>
-                                ))}
-                                {/* Third set to ensure coverage on large screens if needed */}
-                                {artHobby.gallery.map((art, index) => (
-                                    <div key={`set3-${index}`} className="art-item">
-                                        <img src={art} alt={`Art ${index + 1}`} />
-                                    </div>
-                                ))}
-                                {artHobby.gallery.map((art, index) => (
-                                    <div key={`set4-${index}`} className="art-item">
-                                        <img src={art} alt={`Art ${index + 1}`} />
-                                    </div>
-                                ))}
+                        {/* Row 1: Artfight */}
+                        {artRows.artfight.length > 0 && (
+                            <div className="art-marquee">
+                                <div className="art-track art-track--forward">
+                                    {artRows.artfight.map((art, index) => (
+                                        <div key={`artfight-1-${index}`} className="art-item">
+                                            <img src={art} alt={`Artfight ${index + 1}`} />
+                                        </div>
+                                    ))}
+                                    {artRows.artfight.map((art, index) => (
+                                        <div key={`artfight-2-${index}`} className="art-item">
+                                            <img src={art} alt={`Artfight ${index + 1}`} />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
+                        )}
+                        {/* Row 3: Inktober 2024 */}
+                        {artRows.inktober2024.length > 0 && (
+                            <div className="art-marquee">
+                                <div className="art-track art-track--reverse">
+                                    {artRows.inktober2024.map((art, index) => (
+                                        <div key={`inktober2024-1-${index}`} className="art-item">
+                                            <img src={art} alt={`Inktober 2024 ${index + 1}`} />
+                                        </div>
+                                    ))}
+                                    {artRows.inktober2024.map((art, index) => (
+                                        <div key={`inktober2024-2-${index}`} className="art-item">
+                                            <img src={art} alt={`Inktober 2024 ${index + 1}`} />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        {/* Row 2: Inktober 2023 */}
+                        {artRows.inktober2023.length > 0 && (
+                            <div className="art-marquee">
+                                <div className="art-track art-track--forward">
+                                    {artRows.inktober2023.map((art, index) => (
+                                        <div key={`inktober2023-1-${index}`} className="art-item">
+                                            <img src={art} alt={`Inktober 2023 ${index + 1}`} />
+                                        </div>
+                                    ))}
+                                    {artRows.inktober2023.map((art, index) => (
+                                        <div key={`inktober2023-2-${index}`} className="art-item">
+                                            <img src={art} alt={`Inktober 2023 ${index + 1}`} />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        
                     </div>
                 </div>
             )}
-
-            {/* Regular Hobbies Section */}
-            <div className="hobbies-container" 
-                 onMouseEnter={() => setIsPaused(true)}
-                 onMouseLeave={() => setIsPaused(false)}>
-                
-                {/* Progress indicators */}
-                <div className="hobbies-indicators">
-                    {regularHobbies.map((_, index) => (
-                        <div 
-                            key={index}
-                            className={`indicator ${selectedHobby === index ? 'active' : ''}`}
-                            onClick={() => setSelectedHobby(index)}
-                        >
-                            <div className="indicator-fill"></div>
-                        </div>
-                    ))}
-                </div>
-
-                <div className="hobby-content">
-                    <div className="hobby-image-container">
-                        <img 
-                            src={regularHobbies[selectedHobby].image} 
-                            alt={regularHobbies[selectedHobby].title}
-                            className="hobby-image"
-                        />
-                    </div>
-                    
-                    <div className="hobby-details">
-                        <h2>{regularHobbies[selectedHobby].title}</h2>
-                        <p>{regularHobbies[selectedHobby].description}</p>
-                        
-                        <div className="hobby-skills">
-                            <h3>Skills & Interests:</h3>
-                            <ul>
-                                {regularHobbies[selectedHobby].skills.map((skill, index) => (
-                                    <li key={index}>{skill}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             
             <Footer />
+            </div>
         </div>
     )
 }

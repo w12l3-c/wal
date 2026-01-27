@@ -83,9 +83,10 @@ export const LiquidChrome = ({
              col = mix(cBlue, cMagenta, (t - 0.5) * 2.0);
           } 
 
-          // Specular highlights
+          // Specular highlights (tinted blue instead of white)
           float highlight = pow(t, 8.0); 
-          col += vec3(highlight * 0.8);
+          vec3 highlightTint = vec3(0.1, 0.45, 1.0);
+          col += highlightTint * (highlight * 0.6);
           
           return vec4(col, 1.0);
       }

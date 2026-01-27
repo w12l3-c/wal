@@ -306,23 +306,31 @@
     .home-experience {
         --hx-pad-x: 5vw;
         --hx-pad-y: 5vh;
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        grid-template-columns: none;
+        grid-template-rows: none;
+        gap: 3vh;
         padding: 5vh 5vw;
-        justify-items: center;
     }
     
     .experience-content {
         width: 100%;
         order: 2;
         text-align: center;
+        align-items: center;
     }
     
     .home-experience-image {
         width: 100%;
         order: 1;
-        margin-bottom: 30px;
+        margin-bottom: 0;
         display: flex;
+        align-items: center;
         justify-content: center;
+        align-self: center;
     }
     
     .home-experience h1 {
@@ -340,8 +348,8 @@
     }
     
     .circular-image {
-        width: 50vw;
-        max-width: 200px;
+        width: min(60vw, 220px);
+        max-width: 220px;
     }
 }
 

@@ -83,8 +83,9 @@ function Home() {
     ];
 
     const socialItems = [
-        { label: 'GitHub', link: 'https://github.com' },
-        { label: 'LinkedIn', link: 'https://linkedin.com' }
+        { label: 'GitHub', link: 'https://github.com/w12l3-c' },
+        { label: 'LinkedIn', link: 'https://www.linkedin.com/in/wallace-lee-yh/' },
+        { label: 'Gmail', link: 'mailto:wwlee@uwaterloo.ca' }
     ];
 
     const hobbyItems = [

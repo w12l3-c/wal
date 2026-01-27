@@ -14,10 +14,13 @@ function Projects() {
     const links = projectsData.map(p => p.link);
     const [currentSlide, setCurrentSlide] = useState(0);
     useEffect(() => {
-        const tiltTargets = Array.from(document.querySelectorAll('.projects.carousel'));
+        const tiltTargets = Array.from(document.querySelectorAll('.projects.carousel, .project-card'));
         if (tiltTargets.length === 0) return undefined;
 
-        const maxTilt = 8;
+        const baseTilt = 8;
+        const gridTilt = 4;
+        const baseScale = 1.03;
+        const gridScale = 1.06;
         const rafIds = new Map();
 
         const handleMove = (event, el) => {
@@ -27,20 +30,27 @@ function Projects() {
             const y = event.clientY - rect.top;
             const px = (x / rect.width) * 2 - 1;
             const py = (y / rect.height) * 2 - 1;
+            const isGridCard = el.classList.contains('project-card');
+            const maxTilt = isGridCard ? gridTilt : baseTilt;
+            const scale = isGridCard ? gridScale : baseScale;
             const rotateX = (-py * maxTilt).toFixed(2);
             const rotateY = (px * maxTilt).toFixed(2);
 
             const rafId = rafIds.get(el);
             if (rafId) cancelAnimationFrame(rafId);
             rafIds.set(el, requestAnimationFrame(() => {
-                el.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                el.style.setProperty('--tilt-x', `${rotateX}deg`);
+                el.style.setProperty('--tilt-y', `${rotateY}deg`);
+                el.style.setProperty('--tilt-scale', scale.toString());
             }));
         };
 
         const handleLeave = (el) => {
             const rafId = rafIds.get(el);
             if (rafId) cancelAnimationFrame(rafId);
-            el.style.transform = 'rotateX(0deg) rotateY(0deg)';
+            el.style.setProperty('--tilt-x', '0deg');
+            el.style.setProperty('--tilt-y', '0deg');
+            el.style.setProperty('--tilt-scale', '1');
         };
 
         tiltTargets.forEach((el) => {
@@ -58,7 +68,9 @@ function Projects() {
                 if (el._tiltMoveHandler) el.removeEventListener('mousemove', el._tiltMoveHandler);
                 if (el._tiltLeaveHandler) el.removeEventListener('mouseleave', el._tiltLeaveHandler);
                 if (el._tiltLeaveHandler) el.removeEventListener('touchstart', el._tiltLeaveHandler);
-                el.style.transform = 'rotateX(0deg) rotateY(0deg)';
+                el.style.setProperty('--tilt-x', '0deg');
+                el.style.setProperty('--tilt-y', '0deg');
+                el.style.setProperty('--tilt-scale', '1');
             });
             rafIds.forEach((id) => cancelAnimationFrame(id));
         };
@@ -83,8 +95,9 @@ function Projects() {
     ];
 
     const socialItems = [
-        { label: 'GitHub', link: 'https://github.com' },
-        { label: 'LinkedIn', link: 'https://linkedin.com' }
+        { label: 'GitHub', link: 'https://github.com/w12l3-c' },
+        { label: 'LinkedIn', link: 'https://www.linkedin.com/in/wallace-lee-yh/' },
+        { label: 'Gmail', link: 'mailto:wwlee@uwaterloo.ca' }
     ];
 
     return(
@@ -150,7 +163,7 @@ function Projects() {
                 ) : (
                     // Grid View
                     <div className="projects-grid">
-                        {projectsData.map((project, index) => (
+                        {[...projectsData].reverse().map((project, index) => (
                             <a key={index} href={project.link} target="_blank" rel="noopener noreferrer" className="project-card">
                                 <div className="project-image">
                                     <img src={project.image} alt={project.title} loading="lazy" decoding="async"/>

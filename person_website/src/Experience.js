@@ -216,8 +216,9 @@ function Experience() {
     ];
 
     const socialItems = [
-        { label: 'GitHub', link: 'https://github.com' },
-        { label: 'LinkedIn', link: 'https://linkedin.com' }
+        { label: 'GitHub', link: 'https://github.com/w12l3-c' },
+        { label: 'LinkedIn', link: 'https://www.linkedin.com/in/wallace-lee-yh/' },
+        { label: 'Gmail', link: 'mailto:wwlee@uwaterloo.ca' }
     ];
 
     const awards = [
@@ -564,7 +565,7 @@ function Experience() {
                                 <span className='skill-tag'>Python</span>
                                 <span className='skill-tag'>JavaScript</span>
                                 <span className='skill-tag'>C++</span>
-                                <span className='skill-tag'>R</span>
+                                <span className='skill-tag'>CUDA</span>
                                 <span className='skill-tag'>MATLAB</span>
                                 <span className='skill-tag'>SQL</span>
                             </div>
@@ -574,10 +575,16 @@ function Experience() {
                             <div className='skill-tags'>
                                 <span className='skill-tag'>PyTorch</span>
                                 <span className='skill-tag'>TensorFlow</span>
+                                <span className='skill-tag'>JAX</span>
                                 <span className='skill-tag'>OpenCV</span>
+                                <span className='skill-tag'>Numpy</span>
+                                <span className='skill-tag'>Pandas</span>
+                                <span className='skill-tag'>Scipy</span>
                                 <span className='skill-tag'>Scikit-learn</span>
                                 <span className='skill-tag'>OpenMME</span>
                                 <span className='skill-tag'>Hugging Face</span>
+                                <span className='skill-tag'>Langchain</span>
+                                <span className='skill-tag'>AlphaFold3</span>
                             </div>
                         </div>
                         <div className='skill-category'>
@@ -594,10 +601,16 @@ function Experience() {
                             <h3>Cloud & DevOps</h3>
                             <div className='skill-tags'>
                                 <span className='skill-tag'>AWS</span>
+                                <span className='skill-tag'>SageMaker</span>
+                                <span className='skill-tag'>EC2</span>
+                                <span className='skill-tag'>E3</span>
+                                <span className='skill-tag'>Lambda</span>
+                                <span className='skill-tag'>Azure</span>
                                 <span className='skill-tag'>Docker</span>
                                 <span className='skill-tag'>Kubernetes</span>
                                 <span className='skill-tag'>Git</span>
                                 <span className='skill-tag'>Linux</span>
+                                <span className='skill-tag'>HPC</span>
                             </div>
                         </div>
                         <div className='skill-category'>
@@ -608,6 +621,16 @@ function Experience() {
                                 <span className='skill-tag'>ANSYS</span>
                                 <span className='skill-tag'>SolidWorks</span>
                                 <span className='skill-tag'>kWave</span>
+                            </div>
+                        </div>
+                        <div className='skill-category'>
+                            <h3>Biosignals</h3>
+                            <div className='skill-tags'>
+                                <span className='skill-tag'>Electromyography EMG</span>
+                                <span className='skill-tag'>Electroencephalogram EEG</span>
+                                <span className='skill-tag'>Electrocardiogram ECG</span>
+                                <span className='skill-tag'>Bacterial Viral Dynamics</span>
+                                <span className='skill-tag'>Protein Structure</span>
                             </div>
                         </div>
                     </div>
