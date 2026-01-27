@@ -1,4 +1,7 @@
 # Personal Website
 By Wallace Lee :thumbsup:
 
-(Finally start making one after 3 years of procrastination)
+Big update on the website. 
+Cleaner interface, better animations!
+
+Also added new content
