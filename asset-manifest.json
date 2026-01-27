@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/wal/static/css/main.0f9b2a54.css",
-    "main.js": "/wal/static/js/main.ae5662dc.js",
+    "main.js": "/wal/static/js/main.7e386183.js",
     "static/js/453.b01d4188.chunk.js": "/wal/static/js/453.b01d4188.chunk.js",
     "static/media/sunnybrook.JPG": "/wal/static/media/sunnybrook.dc767249213a7b01bf62.JPG",
     "static/media/Instagram_icon.png": "/wal/static/media/Instagram_icon.db2612bd586501d9ed3e.png",
@@ -110,11 +110,11 @@
     "index.html": "/wal/index.html",
     "static/media/github.webp": "/wal/static/media/github.d71872d251fbd9cf4c5f.webp",
     "main.0f9b2a54.css.map": "/wal/static/css/main.0f9b2a54.css.map",
-    "main.ae5662dc.js.map": "/wal/static/js/main.ae5662dc.js.map",
+    "main.7e386183.js.map": "/wal/static/js/main.7e386183.js.map",
     "453.b01d4188.chunk.js.map": "/wal/static/js/453.b01d4188.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0f9b2a54.css",
-    "static/js/main.ae5662dc.js"
+    "static/js/main.7e386183.js"
   ]
 }
